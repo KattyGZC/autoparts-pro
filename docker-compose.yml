@@ -1,0 +1,39 @@
+services:
+  autoparts_backend:
+    build: ./backend
+    container_name: autoparts_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/autoparts_backend
+    depends_on:
+      - autoparts_db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@autoparts_db:5432/autoparts
+    restart: always
+
+  autoparts_frontend:
+    build: ./frontend
+    container_name: autoparts_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/autoparts_frontend
+    depends_on:
+      - autoparts_backend
+
+  autoparts_db:
+    image: postgres:15
+    container_name: autoparts_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=autoparts
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      -  autoparts_db_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  autoparts_db_data:
