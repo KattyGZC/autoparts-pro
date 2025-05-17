@@ -5,7 +5,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/autoparts_backend
+      - ./backend:/backend
+    working_dir: /backend
     depends_on:
       - autoparts_db
     environment:
@@ -18,7 +19,8 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./frontend:/autoparts_frontend
+      - ./frontend:/frontend
+    working_dir: /frontend
     depends_on:
       - autoparts_backend
 

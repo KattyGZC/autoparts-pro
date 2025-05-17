@@ -22,7 +22,7 @@ Central to the inventory system, every repair order will use parts from the inve
 
 Represents each repair task, linking to Customer, Vehicle and parts. Storing vehicle and customer references allows quick association.
 
-5. **RepairOrderPart**: id, repair_order_id, inventory_part_id, quantity, unit_cost
+5. **RepairOrderPart**: id, repair_order_id, inventory_part_id, quantity
 
 Many-to-many relationship between repair orders and parts used in them. It enables tracking of parts used in each repair order and decouples part usage from inventory tracking. Besides, it supports optimization logic: given current inventory, which repair order can be fulfilled
 
