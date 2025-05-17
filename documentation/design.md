@@ -6,19 +6,19 @@ For this challenge, I have chosen to use a monolithic architecture with Clean Ar
 ## Database Design
 The safer and standard way is design a normalized relational schema. It will use PostgreSQL as the database. In this case we have to design a database schema that efficiently supports core business processes, minimizes stock shortages and waste, optimizes repair order processing, keeps scalable and maintainable as the system grows.  It will have five tables: Customer, Vehicle, InventoryParts, RepairOrder and RepairOrderPart. The last one is a junction table for the many-to-many relationship between RepairOrder and InventoryParts.
 
-1. **Customer**: id, name, email, phone 
+1. **Customer**: id, name, email, phone, address 
 
 Central entity to link with Vehicle and RepairOrder. Keeping customer data separated from vehicle data to avoid data duplication.
 
-2. **Vehicle**: id, customer_id, model, year, license_plate, color
+2. **Vehicle**: id, customer_id, model, brand, year, license_plate, color
 
 Vehicles are serviced assets, tightly coupled repair orders. 
 
-3. **InventoryParts**: id, code, description, cost, stock
+3. **InventoryParts**: id, name, description, cost, stock_quantity
 
 Central to the inventory system, every repair order will use parts from the inventory. Tracking stock directly in this table keeps inventory management simple and efficient.
 
-4. **RepairOrder**: id, customer_id, vehicle_id, date, status, labor
+4. **RepairOrder**: id, customer_id, vehicle_id, date, status, labor_cost
 
 Represents each repair task, linking to Customer, Vehicle and parts. Storing vehicle and customer references allows quick association.
 
