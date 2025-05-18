@@ -23,3 +23,4 @@ aiosqlite
 # --- Utilities ---
 python-dotenv==1.0.1
 email-validator
+Faker
