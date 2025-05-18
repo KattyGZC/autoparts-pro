@@ -7,7 +7,7 @@ from pydantic import constr
 class CustomerBase(BaseSchema):
     name: constr(min_length=2, max_length=100, strip_whitespace=True)
     email: Optional[EmailStr] = None
-    phone: Optional[constr(min_length=7, max_length=15, regex=r'^\+?[0-9]*$')] = None
+    phone: Optional[constr(min_length=7, max_length=15, pattern=r'^\+?[0-9]*$')] = None
     address: Optional[constr(min_length=5, max_length=150, strip_whitespace=True)] = None
 
 

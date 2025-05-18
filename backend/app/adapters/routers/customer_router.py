@@ -8,7 +8,7 @@ from app.adapters.schemas.customer import (
 )
 from app.infrastructure.db.session import get_db
 from app.infrastructure.repositories.customer_repository import CustomerRepository
-from app.use_cases.customer_usescases import CustomerUseCase
+from app.use_cases.customer_usecases import CustomerUseCase
 from app.domain.exceptions import CustomerDuplicateException, CustomerValidationException, CustomerNotFoundException
 
 router = APIRouter(prefix="/api/v1/customers", tags=["Customers"])
@@ -30,7 +30,7 @@ def create_customer(
     except CustomerValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
 
 #--------------------------------------------------------------------------------------------
 
@@ -42,11 +42,11 @@ def get_all_customers(
     try:
         return use_case.get_all_customers()
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
 
 #--------------------------------------------------------------------------------------------
 
-@router.get("/get/{customer_id}", response_model=CustomerRead)
+@router.get("/detail/{customer_id}", response_model=CustomerRead)
 def get_customer_by_id(
     customer_id: UUID,
     use_case: CustomerUseCase = Depends(get_customer_use_case),
@@ -57,7 +57,7 @@ def get_customer_by_id(
     except CustomerNotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return customer
 
 #--------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ def update_customer(
     except CustomerValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return updated
 
 #--------------------------------------------------------------------------------------------
@@ -94,5 +94,5 @@ def delete_customer(
     except CustomerNotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return deleted
