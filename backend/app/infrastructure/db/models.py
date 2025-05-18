@@ -15,6 +15,7 @@ class Customer(Base):
     email = Column(String, nullable=True)
 
     vehicles = relationship("Vehicle", back_populates="customer")
+    repair_orders = relationship("RepairOrder", back_populates="customer")
 
 class Vehicle(Base):
     __tablename__ = "vehicles"
