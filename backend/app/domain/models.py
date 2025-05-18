@@ -19,6 +19,7 @@ class Vehicle:
     model: str
     brand: str
     year: int
+    color: str
 
 @dataclass
 class Part:

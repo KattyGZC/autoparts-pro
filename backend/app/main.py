@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
-from app.adapters.routers import customer_router
+from app.adapters.routers import customer_router, vehicle_router
 
 app = FastAPI(
     title="Autoparts Service API",
@@ -12,6 +12,7 @@ app = FastAPI(
 )
 
 app.include_router(customer_router.router)
+app.include_router(vehicle_router.router)
 
 @app.get("/", include_in_schema=False)
 def redirect_to_docs():

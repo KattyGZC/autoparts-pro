@@ -6,6 +6,7 @@ class VehicleBase(BaseSchema):
     model: str
     brand: str
     year: int
+    color: str
 
 class VehicleCreate(VehicleBase):
     customer_id: UUID
