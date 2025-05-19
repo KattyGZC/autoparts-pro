@@ -1,10 +1,4 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-
-const App = () => (
-  <div>
-    <h1>AutoParts Frontend is Running!</h1>
-  </div>
-)
+import App from './App'
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
