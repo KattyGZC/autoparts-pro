@@ -64,3 +64,65 @@ h1 {
   margin: 0;
   font-size: 24px;
 }
+
+.customer-list-container {
+  margin: 20px;
+}
+
+.new-customer-button {
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.new-customer-button:hover {
+  background-color: #45a049;
+}
+
+.new-customer-button:disabled {
+  background-color: #1B4D1B;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-table th,
+.customer-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.customer-table th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.customer-row:hover {
+  background-color: #f5f5f5;
+}
+
+.delete-button {
+  background-color: #F44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+
+.delete-button:disabled {
+  background-color: #7B1A1A;
+}
