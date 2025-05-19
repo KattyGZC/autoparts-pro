@@ -7,7 +7,7 @@ from app.adapters.schemas.customer import (
 )
 from app.infrastructure.repositories.customer_repository import CustomerRepository
 import uuid
-from app.domain.exceptions import CustomerDuplicateException
+from app.domain.exceptions import CustomerDuplicateException, CustomerNotFoundException
 
 class CustomerUseCase:
     def __init__(self, repository: CustomerRepository):
@@ -31,9 +31,9 @@ class CustomerUseCase:
 
     def get_customer_by_id(self, customer_id: uuid.UUID) -> Optional[CustomerRead]:
         customer = self.repository.get_by_id(customer_id)
-        if customer:
-            return CustomerRead.model_validate(customer)
-        return None
+        if not customer:
+            raise CustomerNotFoundException(customer_id)
+        return CustomerRead.model_validate(customer)
 
     def get_all_customers(self) -> List[CustomerRead]:
         customers = self.repository.get_all()
@@ -41,9 +41,9 @@ class CustomerUseCase:
 
     def update_customer(self, customer_id: uuid.UUID, data: CustomerUpdate) -> Optional[CustomerRead]:
         updated_customer = self.repository.update(customer_id, data.model_dump(exclude_unset=True))
-        if updated_customer:
-            return CustomerRead.model_validate(updated_customer)
-        return None
+        if not updated_customer:
+            raise CustomerNotFoundException(customer_id)
+        return CustomerRead.model_validate(updated_customer)
 
     def disable_customer(self, customer_id: uuid.UUID) -> bool:
         return self.repository.disable(customer_id)

@@ -7,7 +7,7 @@ from app.adapters.schemas.vehicle import (
 )
 from app.infrastructure.repositories.vehicle_repository import VehicleRepository
 import uuid
-from app.domain.exceptions import VehicleDuplicateException
+from app.domain.exceptions import VehicleDuplicateException, VehicleNotFoundException
 
 class VehicleUseCase:
     def __init__(self, repository: VehicleRepository):
@@ -31,9 +31,9 @@ class VehicleUseCase:
 
     def get_vehicle_by_id(self, vehicle_id: uuid.UUID) -> Optional[VehicleRead]:
         vehicle = self.repository.get_by_id(vehicle_id)
-        if vehicle:
-            return VehicleRead.model_validate(vehicle)
-        return None
+        if not vehicle:
+            raise VehicleNotFoundException(vehicle_id)
+        return VehicleRead.model_validate(vehicle)
 
     def get_all_vehicles(self) -> List[VehicleRead]:
         vehicles = self.repository.get_all()
@@ -41,9 +41,9 @@ class VehicleUseCase:
 
     def update_vehicle(self, vehicle_id: uuid.UUID, data: VehicleUpdate) -> Optional[VehicleRead]:
         updated_vehicle = self.repository.update(vehicle_id, data.model_dump(exclude_unset=True))
-        if updated_vehicle:
-            return VehicleRead.model_validate(updated_vehicle)
-        return None
+        if not updated_vehicle:
+            raise VehicleNotFoundException(vehicle_id)
+        return VehicleRead.model_validate(updated_vehicle)
 
     def disable_vehicle(self, vehicle_id: uuid.UUID) -> bool:
         return self.repository.disable(vehicle_id)

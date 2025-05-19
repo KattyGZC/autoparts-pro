@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from uuid import UUID
 from sqlalchemy.orm import Session
 from app.adapters.schemas.customer import (
@@ -90,7 +91,7 @@ def disable_customer(
 ):
     "Allows to disable (soft delete) a customer by id"
     try:
-        disabled = use_case.disable_customer(customer_id)
+        use_case.disable_customer(customer_id)
     except CustomerNotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from uuid import UUID
 from sqlalchemy.orm import Session
 from app.adapters.schemas.vehicle import (
@@ -42,7 +43,7 @@ def get_all_vehicles(
     try:
         return use_case.get_all_vehicles()
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
 
 #--------------------------------------------------------------------------------------------
 
@@ -83,16 +84,16 @@ def update_vehicle(
 
 #--------------------------------------------------------------------------------------------
 
-@router.patch("/disable/{vehicle_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.patch("/disable/{vehicle_id}", status_code=status.HTTP_200_OK)
 def disable_vehicle(
     vehicle_id: UUID,
     use_case: VehicleUseCase = Depends(get_vehicle_use_case),
 ):
     "Allows to disable (soft delete) a vehicle by id"
     try:
-        disabled = use_case.disable_vehicle(vehicle_id)
+        use_case.disable_vehicle(vehicle_id)
     except VehicleNotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
-    return disabled
+    return JSONResponse(status_code=200, content={"detail": "Vehicle deactivated successfully"})
