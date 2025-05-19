@@ -2,17 +2,18 @@ from uuid import UUID
 from typing import Optional
 from app.adapters.schemas.base import BaseSchema
 
-class PartBase(BaseSchema):
+class InventoryPartBase(BaseSchema):
     name: str
     description: Optional[str] = None
     stock_quantity: int
     cost: float
+    is_active: bool
 
-class PartCreate(PartBase):
+class InventoryPartCreate(InventoryPartBase):
     pass
 
-class PartUpdate(PartBase):
+class InventoryPartUpdate(InventoryPartBase):
     pass
 
-class PartRead(PartBase):
+class InventoryPartRead(InventoryPartBase):
     id: UUID

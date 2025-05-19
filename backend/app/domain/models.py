@@ -24,7 +24,7 @@ class Vehicle:
     is_active: bool
 
 @dataclass
-class Part:
+class InventoryPart:
     id: UUID
     name: str
     description: Optional[str]

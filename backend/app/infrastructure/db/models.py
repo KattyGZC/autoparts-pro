@@ -15,8 +15,8 @@ class Customer(Base):
     email = Column(String, nullable=True)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    vehicles = relationship("Vehicle", back_populates="customer")
-    repair_orders = relationship("RepairOrder", back_populates="customer")
+    vehicles = relationship("Vehicle", back_populates="customer", lazy="select")
+    repair_orders = relationship("RepairOrder", back_populates="customer", lazy="select")
 
 class Vehicle(Base):
     __tablename__ = "vehicles"
@@ -29,8 +29,8 @@ class Vehicle(Base):
     year = Column(Integer, nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    customer = relationship("Customer", back_populates="vehicles")
-    repair_orders = relationship("RepairOrder", back_populates="vehicle")
+    customer = relationship("Customer", back_populates="vehicles", lazy="select")
+    repair_orders = relationship("RepairOrder", back_populates="vehicle", lazy="select")
 
 class InventoryPart(Base):
     __tablename__ = "inventory_parts"
@@ -41,7 +41,7 @@ class InventoryPart(Base):
     cost = Column(Float, nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    repair_order_parts = relationship("RepairOrderPart", back_populates="part")
+    repair_order_parts = relationship("RepairOrderPart", back_populates="part", lazy="select")
 
 class RepairOrder(Base):
     __tablename__ = "repair_orders"
@@ -52,9 +52,9 @@ class RepairOrder(Base):
     labor_cost = Column(Float, nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    vehicle = relationship("Vehicle", back_populates="repair_orders")
-    customer = relationship("Customer", back_populates="repair_orders")
-    parts = relationship("RepairOrderPart", back_populates="repair_order")
+    vehicle = relationship("Vehicle", back_populates="repair_orders", lazy="select")
+    customer = relationship("Customer", back_populates="repair_orders", lazy="select")
+    parts = relationship("RepairOrderPart", back_populates="repair_order", lazy="select")
 
 class RepairOrderPart(Base):
     __tablename__ = "repair_order_parts"
@@ -64,5 +64,5 @@ class RepairOrderPart(Base):
     quantity = Column(Integer, nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
 
-    repair_order = relationship("RepairOrder", back_populates="parts")
-    part = relationship("InventoryPart", back_populates="repair_order_parts")
+    repair_order = relationship("RepairOrder", back_populates="parts", lazy="select")
+    part = relationship("InventoryPart", back_populates="repair_order_parts", lazy="select")
