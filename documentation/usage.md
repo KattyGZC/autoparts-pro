@@ -19,7 +19,9 @@
 
 ## Migrations
 
-1. Run `alembic upgrade head`
+Locate at the root of the project
+1. Run data migrations: `docker-compose exec autoparts_backend alembic -c app/infrastructure/db/alembic.ini upgrade head`
+2. Fake data: `docker-compose exec autoparts_backend python -m app.infrastructure.db.seed`
 
 ## Usage
 
