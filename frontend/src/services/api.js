@@ -17,3 +17,11 @@ export const deleteCustomer = async (id) => {
     }, DELAY);
   });
 };
+
+export const createCustomer = async (customer) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(customer);
+    }, DELAY);
+  });
+};

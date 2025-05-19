@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import Header from "../Header";
 import { deleteCustomer, getCustomers } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const CustomerList = () => {
+
+  const navigate = useNavigate()
+
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [creating, setCreating] = useState(false);
   const [deleting, setDeleting] = useState(null);
 
   useEffect(() => {
@@ -19,14 +22,14 @@ const CustomerList = () => {
     fetchData();
   }, []);
 
-
   const handleDelete = async (customer) => {
     if (window.confirm(`Are you sure you want to delete the customer ${customer.name}?`)) {
       const id = customer.id
       setDeleting(id)
       const result = await deleteCustomer(id)
       if (result) {
-        setCustomers(customers.filter((customer) => customer.id !== id));
+        const data = await getCustomers();
+        setCustomers(data);
       } else {
         alert(`Could not delete the customer ${customer.name}`);
       }
@@ -42,7 +45,7 @@ const CustomerList = () => {
     <div>
       <Header title="Customers" />
       <div className="customer-list-container">
-        <button className="new-customer-button" disabled={creating || loading}>{creating ? "Adding..." : "Add Customer"}</button>
+        <button className="new-customer-button" disabled={loading} onClick={() => navigate("/customers/new")}>{"Add Customer"}</button>
         {loading ?
           <p>Loading customers...</p>
           :

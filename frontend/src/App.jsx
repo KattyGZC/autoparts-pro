@@ -4,6 +4,7 @@ import CustomerList from "./components/Customer/CustomerList";
 import VehicleList from "./components/Vehicle/VehicleList";
 import InventoryList from "./components/Inventory/InventoryList";
 import RepairOrderList from "./components/RepairOrder/RepairOrderList";
+import CustomerForm from "./components/Customer/CustomerForm";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/customers" element={<CustomerList />} />
+        <Route path="/customers/new" element={<CustomerForm />} />
         <Route path="/vehicles" element={<VehicleList />} />
         <Route path="/inventory" element={<InventoryList />} />
         <Route path="/repair-orders" element={<RepairOrderList />} />
