@@ -5,6 +5,7 @@ import VehicleList from "./components/Vehicle/VehicleList";
 import InventoryList from "./components/Inventory/InventoryList";
 import RepairOrderList from "./components/RepairOrder/RepairOrderList";
 import CustomerForm from "./components/Customer/CustomerForm";
+import CustomerDetails from "./components/Customer/CustomerDetails";
 
 const App = () => {
   return (
@@ -13,6 +14,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/customers" element={<CustomerList />} />
         <Route path="/customers/new" element={<CustomerForm />} />
+        <Route path="/customers/detail/:id" element={<CustomerDetails />} />
+        <Route path="/customers/edit/:id" element={<CustomerForm />} />
         <Route path="/vehicles" element={<VehicleList />} />
         <Route path="/inventory" element={<InventoryList />} />
         <Route path="/repair-orders" element={<RepairOrderList />} />

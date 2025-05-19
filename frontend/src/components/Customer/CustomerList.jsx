@@ -38,7 +38,7 @@ const CustomerList = () => {
   };
 
   const handleDetails = (customer) => {
-    alert(`Details for ${customer.name}`);
+    navigate(`/customers/detail/${customer.id}`);
   };
 
   return (

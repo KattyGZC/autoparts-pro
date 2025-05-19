@@ -1,14 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../Header';
-import { createCustomer } from '../../services/api';
-import { useNavigate } from 'react-router-dom';
+import { createCustomer, editCustomer, getCustumer } from '../../services/api';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CustomerForm = () => {
+  const params = useParams();
+    const [customerParam, setCustomer] = useState(null);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const fetchCustomer = async () => {
+        setLoading(true);
+        const customer = await getCustumer(params.id);
+        setCustomer(customer)
+        setCustomerData(customer)
+        setLoading(false);
+      };
+      fetchCustomer();
+    }, [params.id]);
+
   const [customerData, setCustomerData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
+    name: customerParam?.name || '',
+    email: customerParam?.email || '',
+    phone: customerParam?.phone || '',
+    address: customerParam?.address || '',
   });
 
   const navigate = useNavigate()
@@ -20,17 +35,32 @@ const CustomerForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newCostumer = await createCustomer(customerData)
-    if (newCostumer) {
-      navigate('/customers')
+    if (customerParam) {
+      try {
+        const customerEdited = await editCustomer(customerData);
+        if (customerEdited) {
+          navigate(-1)
+          navigate(`/customers/detail/${customerEdited.id}`);
+        } else {
+          alert('Failed to edit customer. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error editing customer:', error);
+        alert('Failed to edit customer. Please try again.');
+      }
     } else {
-      alert('Failed to create customer. Please try again.')
+      const newCostumer = await createCustomer(customerData)
+      if (newCostumer) {
+        navigate('/customers')
+      } else {
+        alert('Failed to create customer. Please try again.')
+      }
     }
   };
 
   return (
     <div className="customer-form-container">
-      <Header title="Create New Customer" />
+      <Header title={customerParam ? "Edit Customer" : "Create New Customer"} />
       <div className="customer-form">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -49,7 +79,7 @@ const CustomerForm = () => {
             <label htmlFor="address">Address:</label>
             <input id="address" type="text" name="address" value={customerData.address} onChange={handleChange} required />
           </div>
-          <button type="submit" className="submit-button">Create Customer</button>
+          <button type="submit" className="submit-button">{customerParam ? "Edit Customer" : "Create Customer"}</button>
         </form>
       </div>
     </div>
