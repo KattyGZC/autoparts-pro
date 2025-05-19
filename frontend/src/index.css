@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.home-navigation {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  width: 60%;
+  max-width: 600px;
+}
+
+.home-button {
+  text-decoration: none;
+  text-align: center;
+  padding: 30px 20px;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.home-button:hover {
+  filter: brightness(1.1);
+}
