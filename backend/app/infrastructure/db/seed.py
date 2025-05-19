@@ -20,7 +20,7 @@ def create_fake_customer():
         "id": uuid.uuid4(),
         "name": fake.name(),
         "email": fake.unique.email(),
-        "phone": fake.unique.phone_number(),
+        "phone": fake.unique.numerify(text='###########'),
         "address": fake.address()
     }
 
