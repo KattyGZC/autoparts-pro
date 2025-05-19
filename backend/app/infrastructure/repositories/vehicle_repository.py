@@ -18,6 +18,7 @@ class VehicleRepository(BaseRepository[VehicleORM]):
             license_plate=vehicle.license_plate,
             color=vehicle.color,
             customer_id=vehicle.customer_id,
+            is_active=vehicle.is_active,
         )
         db_obj = super().add(orm_vehicle)
         return Vehicle(
@@ -28,6 +29,7 @@ class VehicleRepository(BaseRepository[VehicleORM]):
             license_plate=db_obj.license_plate,
             color=db_obj.color,
             customer_id=db_obj.customer_id,
+            is_active=db_obj.is_active,
         )
 
     def get_by_id(self, vehicle_id: UUID) -> Vehicle | None:
@@ -39,8 +41,8 @@ class VehicleRepository(BaseRepository[VehicleORM]):
     def update(self, vehicle_id: UUID, updates: dict) -> Vehicle | None:
         return super().update(vehicle_id, updates)
 
-    def delete(self, vehicle_id: UUID) -> bool:
-        return super().delete(vehicle_id)
+    def disable(self, vehicle_id: UUID) -> bool:
+        return super().disable(vehicle_id)
 
     def get_by_license_plate(self, license_plate: str) -> Optional[VehicleORM]:
         return self.db.query(VehicleORM).filter(VehicleORM.license_plate == license_plate).first()

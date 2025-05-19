@@ -83,16 +83,16 @@ def update_vehicle(
 
 #--------------------------------------------------------------------------------------------
 
-@router.delete("/delete/{vehicle_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_vehicle(
+@router.patch("/disable/{vehicle_id}", status_code=status.HTTP_204_NO_CONTENT)
+def disable_vehicle(
     vehicle_id: UUID,
     use_case: VehicleUseCase = Depends(get_vehicle_use_case),
 ):
-    "Allows to delete a vehicle by id"
+    "Allows to disable (soft delete) a vehicle by id"
     try:
-        deleted = use_case.delete_vehicle(vehicle_id)
+        disabled = use_case.disable_vehicle(vehicle_id)
     except VehicleNotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
-    return deleted
+    return disabled

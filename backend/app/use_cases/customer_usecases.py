@@ -23,7 +23,8 @@ class CustomerUseCase:
             name=customer_data.name,
             email=customer_data.email,
             phone=customer_data.phone,
-            address=customer_data.address
+            address=customer_data.address,
+            is_active=customer_data.is_active,
         )
         orm_customer = self.repository.add(new_customer)
         return CustomerRead.model_validate(orm_customer)
@@ -44,5 +45,5 @@ class CustomerUseCase:
             return CustomerRead.model_validate(updated_customer)
         return None
 
-    def delete_customer(self, customer_id: uuid.UUID) -> bool:
-        return self.repository.delete(customer_id)
+    def disable_customer(self, customer_id: uuid.UUID) -> bool:
+        return self.repository.disable(customer_id)

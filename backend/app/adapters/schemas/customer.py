@@ -9,7 +9,7 @@ class CustomerBase(BaseSchema):
     email: Optional[EmailStr] = None
     phone: Optional[constr(min_length=7, max_length=15)] = None
     address: Optional[constr(min_length=5, max_length=150, strip_whitespace=True)] = None
-
+    is_active: bool = True
 
 class CustomerCreate(CustomerBase):
     pass
@@ -19,3 +19,4 @@ class CustomerUpdate(CustomerBase):
 
 class CustomerRead(CustomerBase):
     id: UUID
+    is_active: bool

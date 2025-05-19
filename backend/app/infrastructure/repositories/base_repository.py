@@ -10,10 +10,14 @@ class BaseRepository(Generic[T]):
         self.model = model
 
     def get_by_id(self, id: str) -> Optional[T]:
-        return self.db.query(self.model).filter(self.model.id == id).first()
+        return (self.db.query(self.model)
+                .filter(self.model.id == id)
+                .first())
 
     def get_all(self) -> list[T]:
-        return self.db.query(self.model).all()
+        return (self.db.query(self.model)
+                .filter(self.model.is_active == True)
+                .all())
 
     def add(self, obj: T) -> T:
         self.db.add(obj)
@@ -21,11 +25,11 @@ class BaseRepository(Generic[T]):
         self.db.refresh(obj)
         return obj
 
-    def delete(self, id: str) -> bool:
+    def disable(self, id: str) -> bool:
         obj = self.get_by_id(id)
         if not obj:
             return False
-        self.db.delete(obj)
+        setattr(obj, "is_active", False)
         self.db.commit()
         return True
 

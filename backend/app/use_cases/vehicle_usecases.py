@@ -24,6 +24,7 @@ class VehicleUseCase:
             license_plate=vehicle_data.license_plate,
             color=vehicle_data.color,
             customer_id=vehicle_data.customer_id,
+            is_active=True,
         )
         orm_vehicle = self.repository.add(new_vehicle)
         return VehicleRead.model_validate(orm_vehicle)
@@ -44,5 +45,5 @@ class VehicleUseCase:
             return VehicleRead.model_validate(updated_vehicle)
         return None
 
-    def delete_vehicle(self, vehicle_id: uuid.UUID) -> bool:
-        return self.repository.delete(vehicle_id)
+    def disable_vehicle(self, vehicle_id: uuid.UUID) -> bool:
+        return self.repository.disable(vehicle_id)

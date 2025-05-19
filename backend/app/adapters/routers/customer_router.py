@@ -30,7 +30,7 @@ def create_customer(
     except CustomerValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 #--------------------------------------------------------------------------------------------
 
@@ -83,16 +83,16 @@ def update_customer(
 
 #--------------------------------------------------------------------------------------------
 
-@router.delete("/delete/{customer_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_customer(
+@router.patch("/disable/{customer_id}", status_code=status.HTTP_200_OK)
+def disable_customer(
     customer_id: UUID,
     use_case: CustomerUseCase = Depends(get_customer_use_case),
 ):
-    "Allows to delete a customer by id"
+    "Allows to disable (soft delete) a customer by id"
     try:
-        deleted = use_case.delete_customer(customer_id)
+        disabled = use_case.disable_customer(customer_id)
     except CustomerNotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)) # TODO: disable customer instead of deleting, add field enabled to customer model
-    return deleted
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+    return JSONResponse(status_code=200, content={"detail": "Customer deactivated successfully"})

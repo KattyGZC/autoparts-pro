@@ -7,6 +7,7 @@ class VehicleBase(BaseSchema):
     brand: str
     year: int
     color: str
+    is_active: bool = True
 
 class VehicleCreate(VehicleBase):
     customer_id: UUID
@@ -17,3 +18,4 @@ class VehicleUpdate(VehicleBase):
 class VehicleRead(VehicleBase):
     id: UUID
     customer_id: UUID
+    is_active: bool

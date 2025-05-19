@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer, Float, Enum, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, Enum, ForeignKey, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, declarative_base
 from app.domain.enums import RepairOrderStatus
@@ -13,6 +13,7 @@ class Customer(Base):
     phone = Column(String, nullable=False)
     address = Column(String, nullable=False)
     email = Column(String, nullable=True)
+    is_active = Column(Boolean, nullable=False, default=True)
 
     vehicles = relationship("Vehicle", back_populates="customer")
     repair_orders = relationship("RepairOrder", back_populates="customer")
@@ -26,6 +27,7 @@ class Vehicle(Base):
     brand = Column(String, nullable=False)
     color = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
 
     customer = relationship("Customer", back_populates="vehicles")
     repair_orders = relationship("RepairOrder", back_populates="vehicle")
@@ -37,6 +39,7 @@ class InventoryPart(Base):
     description = Column(String, nullable=True)
     stock_quantity = Column(Integer, nullable=False)
     cost = Column(Float, nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
 
     repair_order_parts = relationship("RepairOrderPart", back_populates="part")
 
@@ -47,6 +50,7 @@ class RepairOrder(Base):
     customer_id = Column(UUID(as_uuid=True), ForeignKey("customers.id"), nullable=False)
     status = Column(Enum(RepairOrderStatus), default=RepairOrderStatus.PENDING, nullable=False)
     labor_cost = Column(Float, nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
 
     vehicle = relationship("Vehicle", back_populates="repair_orders")
     customer = relationship("Customer", back_populates="repair_orders")
@@ -58,6 +62,7 @@ class RepairOrderPart(Base):
     repair_order_id = Column(UUID(as_uuid=True), ForeignKey("repair_orders.id"), nullable=False)
     part_id = Column(UUID(as_uuid=True), ForeignKey("inventory_parts.id"), nullable=False)
     quantity = Column(Integer, nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
 
     repair_order = relationship("RepairOrder", back_populates="parts")
     part = relationship("InventoryPart", back_populates="repair_order_parts")

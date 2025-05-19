@@ -16,6 +16,7 @@ class CustomerRepository(BaseRepository[CustomerORM]):
             email=customer.email,
             phone=customer.phone,
             address=customer.address,
+            is_active=customer.is_active,
         )
         db_obj = super().add(orm_customer)
         return Customer(
@@ -24,6 +25,7 @@ class CustomerRepository(BaseRepository[CustomerORM]):
             email=db_obj.email,
             phone=db_obj.phone,
             address=db_obj.address,
+            is_active=db_obj.is_active,
         )
 
     def get_by_id(self, customer_id: UUID) -> Customer | None:
@@ -35,8 +37,8 @@ class CustomerRepository(BaseRepository[CustomerORM]):
     def update(self, customer_id: UUID, updates: dict) -> Customer | None:
         return super().update(customer_id, updates)
 
-    def delete(self, customer_id: UUID) -> bool:
-        return super().delete(customer_id)
+    def disable(self, customer_id: UUID) -> bool:
+        return super().disable(customer_id)
 
     def get_by_email(self, email: str) -> Optional[CustomerORM]:
         return self.db.query(CustomerORM).filter(CustomerORM.email == email).first()

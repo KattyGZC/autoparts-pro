@@ -10,6 +10,7 @@ class Customer:
     email: Optional[str]
     phone: Optional[str]
     address: Optional[str]
+    is_active: bool
 
 @dataclass
 class Vehicle:
@@ -20,6 +21,7 @@ class Vehicle:
     brand: str
     year: int
     color: str
+    is_active: bool
 
 @dataclass
 class Part:
@@ -28,6 +30,7 @@ class Part:
     description: Optional[str]
     stock_quantity: int
     cost: float
+    is_active: bool
 
 @dataclass
 class RepairOrder:
@@ -35,6 +38,7 @@ class RepairOrder:
     vehicle_id: UUID
     status: RepairOrderStatus
     labor_cost: float
+    is_active: bool
 
 @dataclass
 class RepairOrderPart:
@@ -42,3 +46,4 @@ class RepairOrderPart:
     repair_order_id: UUID
     part_id: UUID
     quantity: int
+    is_active: bool
