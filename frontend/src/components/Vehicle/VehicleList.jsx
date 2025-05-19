@@ -1,6 +1,12 @@
+import Header from "../Header";
 
 const VehicleList = () => {
-  return <h2>Vehicle List Page</h2>;
+  return (
+    <div>
+      <Header title="Vehicles" />
+      <p>Vehicle list goes here...</p>
+    </div>
+  );
 };
 
 export default VehicleList;

@@ -1,6 +1,12 @@
+import Header from "../Header";
 
 const RepairOrderList = () => {
-  return <h2>Repair Order List Page</h2>;
+  return (
+    <div>
+      <Header title="Repair Orders" />
+      <p>Repair Order list goes here...</p>
+    </div>
+  );
 };
 
 export default RepairOrderList;

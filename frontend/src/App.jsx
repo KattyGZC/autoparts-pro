@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import CustomerList from "./components/Customer/CustomerList";
 import VehicleList from "./components/Vehicle/VehicleList";
-import InventoryList from "./components/InventoryParts/InventoryList";
+import InventoryList from "./components/Inventory/InventoryList";
 import RepairOrderList from "./components/RepairOrder/RepairOrderList";
 
 const App = () => {
