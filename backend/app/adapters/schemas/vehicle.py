@@ -23,4 +23,5 @@ class VehicleRead(VehicleBase):
 class VehicleSimpleResponse(BaseSchema):
     id: UUID
     license_plate: str
+    is_active: bool
     
