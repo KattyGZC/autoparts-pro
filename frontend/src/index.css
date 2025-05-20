@@ -91,7 +91,8 @@ h1 {
 
 .vehicle-list-container,
 .customer-list-container,
-.inventory-list-container {
+.inventory-list-container,
+.repair-order-list-container {
   margin: 20px;
 }
 
@@ -149,8 +150,13 @@ h1 {
 
 .inventory-row:hover,
 .vehicle-row:hover,
-.customer-row:hover {
+.customer-row:hover,
+.repair-order-row:hover {
   background-color: var(--hover-color);
+}
+
+.repair-order-row.is-completed {
+  background-color: var(--border-color);
 }
 
 .button {
@@ -320,19 +326,24 @@ h1 {
 
 .vehicle-details-container,
 .customer-details-container,
-.inventory-details-container {
+.inventory-details-container,
+.repair-order-details-container {
   margin: 20px;
   padding: 20px;
   background-color: white;
 }
 
+.vehicle-details,
 .customer-details,
-.inventory-details {
+.inventory-details,
+.repair-order-details {
   margin-bottom: 20px;
 }
 
+.vehicle-details p,
 .customer-details p,
-.inventory-details p {
+.inventory-details p,
+.repair-order-details p {
   margin: 10px 0;
   line-height: 1.5;
 }

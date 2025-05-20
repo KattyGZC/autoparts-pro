@@ -61,6 +61,7 @@ const CustomerDetails = () => {
                   <p><strong>Email:</strong> {customer.email}</p>
                   <p><strong>Phone:</strong> {customer.phone}</p>
                   <p><strong>Address:</strong> {customer.address}</p>
+                  <p><strong>Customer Active:</strong> {customer.is_active ? 'Yes' : 'No'}</p>
                 </div>
                 <button
                   className="button button--success"

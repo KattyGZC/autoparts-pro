@@ -6,6 +6,7 @@ import VehicleForm from "./components/Vehicle/VehicleForm";
 import VehicleDetails from "./components/Vehicle/VehicleDetails";
 import InventoryList from "./components/Inventory/InventoryList";
 import RepairOrderList from "./components/RepairOrder/RepairOrderList";
+import RepairOrderDetail from "./components/RepairOrder/RepairOrderDetail";
 import CustomerForm from "./components/Customer/CustomerForm";
 import CustomerDetails from "./components/Customer/CustomerDetails";
 import InventoryForm from "./components/Inventory/InventoryForm";
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/inventory/detail/:id" element={<InventoryDetail />} />
         <Route path="/inventory/edit/:id" element={<InventoryForm />} />
         <Route path="/repair-orders" element={<RepairOrderList />} />
+        <Route path="/repair-orders/detail/:id" element={<RepairOrderDetail />} />
         <Route path="*" element={<h2 style={{ color: "red" }}>404 - Page Not Found</h2>} />
       </Routes>
     </Router>

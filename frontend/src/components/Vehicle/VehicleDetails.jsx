@@ -65,18 +65,18 @@ const VehicleDetails = () => {
                   <p><strong>Brand:</strong> {vehicle.brand}</p>
                   <p><strong>Year:</strong> {vehicle.year}</p>
                   <p><strong>Color:</strong> {vehicle.color}</p>
-                  <p><strong>Customer:</strong> <span className={vehicle.customer.is_active ? '' : 'is-not-active'}>{vehicle.customer.name}</span>
-                    {vehicle.customer.is_active && (
+                  <p><strong>Customer:</strong> <a href={`/customers/detail/${vehicle.customer.id}`} className={vehicle.customer.is_active ? '' : 'is-not-active'}>{vehicle.customer.name}</a>
+                    {!vehicle.customer.is_active && (
                       <button
                         className="button button--info badge"
-                        onClick={() => navigate(`/customers/detail/${vehicle.customer.id}`)}
                         disabled={!vehicle.customer.is_active}
-                        style={{ marginLeft: "10px" }}
+                        style={{ marginLeft: "10px", cursor: "default" }}
                       >
-                        View
+                        Inactive
                       </button>
                     )}
                   </p>
+                  <p><strong>Vehicle Active:</strong> {vehicle.is_active ? 'Yes' : 'No'}</p>
                 </div>
                 <button
                   className="button button--edit"
