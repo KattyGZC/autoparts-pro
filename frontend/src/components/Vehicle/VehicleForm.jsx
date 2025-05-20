@@ -2,25 +2,25 @@ import { useEffect, useState } from 'react';
 import Header from '../Header';
 import { createVehicle, editVehicle, getVehicle } from '../../services/vehicleApi';
 import { getCustomers } from '../../services/customerApi';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const VehicleForm = () => {
   const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
   const [vehicleParam, setVehicleParam] = useState(null);
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [loadingCustomers, setLoadingCustomers] = useState(true);
+  const customerId = new URLSearchParams(location.search).get('customerId');
   const [vehicleData, setVehicleData] = useState({
     license_plate: vehicleParam?.license_plate || '',
     model: vehicleParam?.model || '',
     brand: vehicleParam?.brand || '',
     year: vehicleParam?.year || '',
     color: vehicleParam?.color || '',
-    customer_id: vehicleParam?.customer_id || params.customerId || '',
+    customer_id: vehicleParam?.customer_id || customerId || '',
   });
-
-  console.log(params);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +30,7 @@ const VehicleForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (vehicleParam) {
+      // Edit
       try {
         const vehicleEdited = await editVehicle(vehicleData);
         if (vehicleEdited) {
@@ -42,10 +43,11 @@ const VehicleForm = () => {
         alert('Failed to edit vehicle. Please try again.');
       }
     } else {
+      // Create
       try {
         const vehicleCreated = await createVehicle(vehicleData);
         if (vehicleCreated) {
-          navigate(`/vehicles/detail/${vehicleCreated.id}`);
+          navigate(`/vehicles/detail/${vehicleCreated.id}`, { replace: true });
         } else {
           alert('Failed to create vehicle. Please try again.');
         }
@@ -158,7 +160,7 @@ const VehicleForm = () => {
               value={vehicleData.customer_id}
               onChange={handleChange}
               required
-              disabled={loading || loadingCustomers}
+              disabled={loading || loadingCustomers || customerId}
               className="select-control"
             >
               <option value="">Select a customer</option>

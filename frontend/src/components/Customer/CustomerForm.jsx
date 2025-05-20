@@ -52,7 +52,7 @@ const CustomerForm = () => {
     } else {
       const newCostumer = await createCustomer(customerData)
       if (newCostumer) {
-        navigate('/customers')
+        navigate('/customers', { replace: true })
       } else {
         alert('Failed to create customer. Please try again.')
       }

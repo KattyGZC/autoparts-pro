@@ -59,7 +59,7 @@ const CustomerDetails = () => {
                   onClick={() => navigate(`/customers/edit/${customer.id}`)}
                   style={{ marginLeft: "10px" }}
                 >
-                  Edit
+                  Edit Customer
                 </button>
                 <button
                   className="button button--delete"
@@ -67,7 +67,7 @@ const CustomerDetails = () => {
                   disabled={deleting}
                   style={{ marginLeft: "10px" }}
                 >
-                  {deleting ? "Deleting..." : "Delete"}
+                  {deleting ? "Deleting Customer..." : "Delete Customer"}
                 </button>
               </div>
             )}
