@@ -1,12 +1,28 @@
 import { useEffect, useState } from 'react';
 import Header from '../Header';
 import { createVehicle, editVehicle, getVehicle } from '../../services/vehicleApi';
+import { getCustomers } from '../../services/customerApi';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const VehicleForm = () => {
   const params = useParams();
   const [vehicleParam, setVehicle] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      setLoadingCustomers(true);
+      try {
+        const customers = await getCustomers();
+        setCustomers(customers);
+      } catch (error) {
+        console.error('Error fetching customers:', error);
+      } finally {
+        setLoadingCustomers(false);
+      }
+    };
+    fetchCustomers();
+  }, []);
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -21,6 +37,8 @@ const VehicleForm = () => {
     fetchVehicle();
   }, [params.id]);
 
+  const [customers, setCustomers] = useState([]);
+  const [loadingCustomers, setLoadingCustomers] = useState(true);
   const [vehicleData, setVehicleData] = useState({
     license_plate: vehicleParam?.license_plate || '',
     model: vehicleParam?.model || '',
@@ -105,6 +123,7 @@ const VehicleForm = () => {
               onChange={handleChange}
               required
               disabled={loading}
+              className="form-control"
             />
           </div>
           <div className="form-group">
@@ -132,16 +151,23 @@ const VehicleForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="customer_id">Customer ID:</label>
-            <input
+            <label htmlFor="customer_id">Customer:</label>
+            <select
               id="customer_id"
-              type="number"
               name="customer_id"
               value={vehicleData.customer_id}
               onChange={handleChange}
               required
-              disabled={loading}
-            />
+              disabled={loading || loadingCustomers}
+              className="select-control"
+            >
+              <option value="">Select a customer</option>
+              {customers.map(customer => (
+                <option key={customer.id} value={customer.id}>
+                  {customer.name} ({customer.email})
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="button button--success" disabled={loading}>
             {vehicleParam ? 'Edit Vehicle' : 'Create Vehicle'}
