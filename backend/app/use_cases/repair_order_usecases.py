@@ -70,3 +70,8 @@ class RepairOrderUseCase:
             raise RepairOrderValidationException("Labor cost cannot be negative.")
         if repair_order.status not in [item.value for item in RepairOrderStatus]:
             raise RepairOrderValidationException(f"Invalid status: {repair_order.status}")
+
+    def get_repair_orders_by_vehicle_id(self, vehicle_id: uuid.UUID) -> list[RepairOrderRead]:
+        repair_orders = self.repair_order_repo.get_by_vehicle_id(vehicle_id)
+        return [RepairOrderRead.model_validate(order) for order in repair_orders]
+        

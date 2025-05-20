@@ -1,5 +1,6 @@
 from uuid import UUID
 from app.adapters.schemas.base import BaseSchema
+from app.adapters.schemas.customer import CustomerDetailByVehicle
 
 class VehicleBase(BaseSchema):
     license_plate: str
@@ -7,7 +8,6 @@ class VehicleBase(BaseSchema):
     brand: str
     year: int
     color: str
-    is_active: bool = True
 
 class VehicleCreate(VehicleBase):
     customer_id: UUID
@@ -17,5 +17,5 @@ class VehicleUpdate(VehicleBase):
 
 class VehicleRead(VehicleBase):
     id: UUID
-    customer_id: UUID
     is_active: bool
+    customer: CustomerDetailByVehicle

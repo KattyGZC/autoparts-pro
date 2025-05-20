@@ -3,7 +3,6 @@ from app.adapters.schemas.base import BaseSchema
 
 class RepairOrderPartBase(BaseSchema):
     quantity: int
-    is_active: bool
 
 class RepairOrderPartCreate(RepairOrderPartBase):
     repair_order_id: UUID

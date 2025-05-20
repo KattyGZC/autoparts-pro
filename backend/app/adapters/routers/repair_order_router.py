@@ -83,3 +83,20 @@ def update_repair_order(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return updated
+
+#--------------------------------------------------------------------------------------------
+
+@router.get("/vehicle/{vehicle_id}", response_model=list[RepairOrderRead])
+def get_repair_orders_by_vehicle_id(
+    vehicle_id: UUID,
+    use_case: RepairOrderUseCase = Depends(get_repair_order_use_case),
+):
+    "Allows to get a repair order by vehicle id"
+    try:
+        repair_orders = use_case.get_repair_orders_by_vehicle_id(vehicle_id)
+    except RepairOrderNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+    return repair_orders
+

@@ -7,7 +7,6 @@ class InventoryPartBase(BaseSchema):
     description: Optional[str] = None
     stock_quantity: int
     cost: float
-    is_active: bool
 
 class InventoryPartCreate(InventoryPartBase):
     pass

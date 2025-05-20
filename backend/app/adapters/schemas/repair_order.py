@@ -9,12 +9,10 @@ class RepairOrderBase(BaseSchema):
     labor_cost: float
     date_expected_out: Optional[datetime]
     date_out: Optional[datetime]
-    is_active: bool
 
-class RepairOrderCreate(RepairOrderBase):
+class RepairOrderCreate(BaseSchema):
     vehicle_id: UUID
     customer_id: UUID
-    date_in: datetime
 
 class RepairOrderUpdate(RepairOrderBase):
     pass

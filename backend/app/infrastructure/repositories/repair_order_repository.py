@@ -47,3 +47,7 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
 
     def update(self, id: UUID, updates: dict) -> RepairOrder | None:
         return super().update(id, updates)
+
+    def get_by_vehicle_id(self, vehicle_id: UUID) -> list[RepairOrderORM]:
+        return self.db.query(RepairOrderORM).filter(RepairOrderORM.vehicle_id == vehicle_id).all()
+    
