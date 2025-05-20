@@ -40,6 +40,7 @@ class InventoryPart(Base):
     description = Column(String, nullable=True)
     stock_quantity = Column(Integer, nullable=False)
     cost = Column(Float, nullable=False)
+    final_price = Column(Float, nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
 
     repair_order_parts = relationship("RepairOrderPart", back_populates="part", lazy="select")

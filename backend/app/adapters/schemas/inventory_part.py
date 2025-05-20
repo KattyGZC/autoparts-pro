@@ -7,6 +7,7 @@ class InventoryPartBase(BaseSchema):
     description: Optional[str] = None
     stock_quantity: int
     cost: float
+    final_price: float
 
 class InventoryPartCreate(InventoryPartBase):
     pass
@@ -22,4 +23,5 @@ class PartDetailByInventoryPart(BaseSchema):
     name: str
     description: Optional[str] = None
     cost: float
+    final_price: float
     quantity_used: int

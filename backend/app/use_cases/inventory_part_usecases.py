@@ -18,6 +18,7 @@ class InventoryPartUseCase:
             description=inventory_part_data.description,
             stock_quantity=inventory_part_data.stock_quantity,
             cost=inventory_part_data.cost,
+            final_price=inventory_part_data.final_price,
             is_active=True,
         )
         orm_inventory_part = self.repository.add(new_inventory_part)

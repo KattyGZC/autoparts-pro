@@ -26,6 +26,7 @@ class InventoryPartRepository(BaseRepository[InventoryPartORM]):
             description=inventory_part.description,
             stock_quantity=inventory_part.stock_quantity,
             cost=inventory_part.cost,
+            final_price=inventory_part.final_price,
             is_active=inventory_part.is_active,
         )
         db_obj = super().add(orm_inventory_part)
@@ -35,6 +36,7 @@ class InventoryPartRepository(BaseRepository[InventoryPartORM]):
             description=db_obj.description,
             stock_quantity=db_obj.stock_quantity,
             cost=db_obj.cost,
+            final_price=db_obj.final_price,
             is_active=db_obj.is_active,
         )
 

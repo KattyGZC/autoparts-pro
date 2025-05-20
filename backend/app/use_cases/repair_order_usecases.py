@@ -129,6 +129,7 @@ class RepairOrderUseCase:
                 name=part.name,
                 description=part.description,
                 cost=part.cost,
+                final_price=part.final_price,
                 quantity_used=rel.quantity
             ))
         return result

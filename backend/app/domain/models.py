@@ -33,6 +33,7 @@ class InventoryPart:
     description: Optional[str]
     stock_quantity: int
     cost: float
+    final_price: float
     is_active: bool
 
 @dataclass
@@ -45,7 +46,7 @@ class RepairOrder:
     date_in: Optional[datetime]
     date_expected_out: Optional[datetime]
     date_out: Optional[datetime]
-    total_cost_repair: float
+    total_cost_repair: Optional[float]
     is_active: bool
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))

@@ -110,7 +110,7 @@ class RepairOrderPartUseCase:
                     part.id, {"stock_quantity": part.stock_quantity - part_input.quantity}
                 )
 
-            total_cost += part.cost * part_input.quantity
+            total_cost += part.final_price * part_input.quantity
 
         for existing in existing_parts:
             if existing.part_id not in incoming_parts_dict:

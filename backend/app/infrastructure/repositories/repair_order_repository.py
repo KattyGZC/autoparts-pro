@@ -5,6 +5,7 @@ from datetime import datetime
 from app.infrastructure.db.models import RepairOrder as RepairOrderORM
 from app.infrastructure.repositories.base_repository import BaseRepository
 from app.domain.models import RepairOrder
+from sqlalchemy.orm import joinedload
 
 class RepairOrderRepository(BaseRepository[RepairOrderORM]):
     def __init__(self, db: Session):
@@ -27,6 +28,7 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
             date_in=repair_order.date_in,
             date_expected_out=repair_order.date_expected_out,
             date_out=repair_order.date_out,
+            total_cost_repair=0,
             created_at=datetime.now(),
             updated_at=datetime.now(),
         )
@@ -41,6 +43,7 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
             date_in=db_obj.date_in,
             date_expected_out=db_obj.date_expected_out,
             date_out=db_obj.date_out,
+            total_cost_repair=db_obj.total_cost_repair,
             created_at=db_obj.created_at,
             updated_at=db_obj.updated_at,
         )
@@ -51,3 +54,10 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
     def get_by_vehicle_id(self, vehicle_id: UUID) -> list[RepairOrderORM]:
         return self.db.query(RepairOrderORM).filter(RepairOrderORM.vehicle_id == vehicle_id).all()
     
+    def get_all_pending_with_parts(self) -> list[RepairOrderORM]:
+        return (
+            self.db.query(RepairOrderORM)
+            .filter(RepairOrderORM.state == "pending", RepairOrderORM.is_active == True)
+            .options(joinedload(RepairOrderORM.repair_order_parts))
+            .all()
+        )

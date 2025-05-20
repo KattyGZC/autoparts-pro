@@ -87,11 +87,16 @@ def create_fake_inventory_part():
         "Seat Covers",
         "Steering Wheel Cover"
     ]
+    cost = fake.pyfloat(left_digits=4, right_digits=2, positive=True)
+    multiplier = random.uniform(1.01, 1.35)
+    final_price = round(cost * multiplier, 2)
+    
     return {
         "id": uuid.uuid4(),
         "name": random.choice(names),
         "description": fake.text(),
-        "cost": fake.pyfloat(left_digits=4, right_digits=2, positive=True),
+        "cost": cost,
+        "final_price": final_price,
         "stock_quantity": fake.pyint(min_value=0, max_value=100),
         "is_active": True
     }
