@@ -61,5 +61,13 @@ class RepairOrderPartRepository(BaseRepository[RepairOrderPartORM]):
             .all()
         )
 
+    def get_all_by_order_id(self, repair_order_id: UUID) -> list[RepairOrderPart]:
+        return (
+            self.db.query(self.model)
+            .filter(self.model.repair_order_id == repair_order_id)
+            .filter(self.model.is_active == True)
+            .all()
+        )
+
     def delete(self, id: UUID) -> bool:
         return super().disable(id)

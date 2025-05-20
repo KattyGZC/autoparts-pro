@@ -22,3 +22,4 @@ class PartDetailByInventoryPart(BaseSchema):
     name: str
     description: Optional[str] = None
     cost: float
+    quantity_used: int

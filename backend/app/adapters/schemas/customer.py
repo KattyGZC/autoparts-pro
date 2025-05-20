@@ -20,7 +20,7 @@ class CustomerRead(CustomerBase):
     id: UUID
     is_active: bool
 
-class CustomerDetailByVehicle(BaseSchema):
+class CustomerDetailResponse(BaseSchema):
     id: UUID
     name: str
     is_active: bool

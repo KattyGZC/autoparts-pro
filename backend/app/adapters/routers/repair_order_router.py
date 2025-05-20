@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 from app.adapters.schemas.repair_order import (
     RepairOrderCreate,
     RepairOrderUpdate,
-    RepairOrderRead,
+    RepairOrderRead
 )
+from app.adapters.schemas.inventory_part import PartDetailByInventoryPart
 from app.infrastructure.db.session import get_db
 from app.infrastructure.repositories.repair_order_repository import RepairOrderRepository
 from app.use_cases.repair_order_usecases import RepairOrderUseCase
@@ -26,7 +27,7 @@ def get_repair_order_use_case(db: Session = Depends(get_db)) -> RepairOrderUseCa
     repair_order_part_repo = RepairOrderPartRepository(db)
     part_repo = InventoryPartRepository(db)
     repair_order_part_usecase = RepairOrderPartUseCase(repair_order_part_repo, repository, part_repo)
-    return RepairOrderUseCase(repository, vehicle_repo, customer_repo, part_repo, repair_order_part_usecase)
+    return RepairOrderUseCase(repository, vehicle_repo, customer_repo, part_repo, repair_order_part_usecase, repair_order_part_repo)
 
 @router.post("/create", response_model=RepairOrderRead, status_code=status.HTTP_201_CREATED)
 def create_repair_order(
@@ -106,3 +107,18 @@ def get_repair_orders_by_vehicle_id(
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return repair_orders
 
+#--------------------------------------------------------------------------------------------
+
+@router.get("/{repair_order_id}/parts-used", response_model=list[PartDetailByInventoryPart])
+def get_parts_used_in_order(
+    repair_order_id: UUID,
+    use_case: RepairOrderUseCase = Depends(get_repair_order_use_case),
+):
+    "Allows to get the parts used in a repair order"
+    try:
+        parts = use_case.get_parts_used_in_order(repair_order_id)
+    except RepairOrderNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+    return parts

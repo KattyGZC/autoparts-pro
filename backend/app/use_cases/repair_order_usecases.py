@@ -4,18 +4,17 @@ from app.domain.exceptions import (
     RepairOrderNotFoundException,
     RepairOrderValidationException,
     VehicleNotFoundException,
-    CustomerNotFoundException,
-    InventoryPartNotFoundException,
-    InventoryPartValidationException,
-    RepairOrderPartDuplicateException,
+    CustomerNotFoundException
 )
 
+from app.infrastructure.repositories.repair_order_part_repository import RepairOrderPartRepository
 from app.infrastructure.repositories.repair_order_repository import RepairOrderRepository
 from app.infrastructure.repositories.vehicle_repository import VehicleRepository
 from app.infrastructure.repositories.customer_repository import CustomerRepository
 from uuid import UUID
 import uuid
-from app.adapters.schemas.repair_order import RepairOrderCreate, RepairOrderRead, RepairOrderUpdate, RepairOrderPartRequest
+from app.adapters.schemas.repair_order import RepairOrderCreate, RepairOrderRead, RepairOrderUpdate
+from app.adapters.schemas.inventory_part import PartDetailByInventoryPart
 from app.infrastructure.repositories.inventory_part_repository import InventoryPartRepository
 from app.use_cases.repair_order_part_usecases import RepairOrderPartUseCase
 
@@ -25,12 +24,14 @@ class RepairOrderUseCase:
                  vehicle_repo: VehicleRepository,
                  customer_repo: CustomerRepository,
                  inventory_part_repo: InventoryPartRepository,
-                 repair_order_part_usecase: RepairOrderPartUseCase):
+                 repair_order_part_usecase: RepairOrderPartUseCase,
+                 repair_order_part_repo: RepairOrderPartRepository):
         self.repair_order_repo = repair_order_repo
         self.vehicle_repo = vehicle_repo
         self.customer_repo = customer_repo
         self.inventory_part_repo = inventory_part_repo
         self.repair_order_part_usecase = repair_order_part_usecase
+        self.repair_order_part_repo = repair_order_part_repo
 
     def create_repair_order(self, repair_order: RepairOrderCreate) -> RepairOrderRead:
         if not repair_order.customer_id:
@@ -110,4 +111,25 @@ class RepairOrderUseCase:
     def get_repair_orders_by_vehicle_id(self, vehicle_id: uuid.UUID) -> list[RepairOrderRead]:
         repair_orders = self.repair_order_repo.get_by_vehicle_id(vehicle_id)
         return [RepairOrderRead.model_validate(order) for order in repair_orders]
+
+    def get_parts_used_in_order(self, repair_order_id: UUID) -> list[PartDetailByInventoryPart]:
+        order = self.repair_order_repo.get_by_id(repair_order_id)
+        if not order:
+            raise RepairOrderNotFoundException(repair_order_id)
+
+        relations = self.repair_order_part_repo.get_all_by_order_id(repair_order_id)
+        
+        result = []
+        for rel in relations:
+            part = self.inventory_part_repo.get_by_id(rel.part_id)
+            if not part:
+                continue  
+            result.append(PartDetailByInventoryPart(
+                id=part.id,
+                name=part.name,
+                description=part.description,
+                cost=part.cost,
+                quantity_used=rel.quantity
+            ))
+        return result
         
