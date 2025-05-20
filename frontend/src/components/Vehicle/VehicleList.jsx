@@ -60,7 +60,7 @@ const VehicleList = () => {
               {vehicles.map((vehicle) => (
                 <tr
                   key={vehicle.id}
-                  className="vehicle-row"
+                  className={`vehicle-row${vehicle.is_active ? '' : ' is-not-active'}`}
                 >
                   <td>{vehicle.brand}</td>
                   <td>{vehicle.year}</td>

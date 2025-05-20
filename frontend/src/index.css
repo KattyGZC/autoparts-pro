@@ -134,6 +134,10 @@ h1 {
   color: white;
 }
 
+.is-not-active td {
+  color: var(--border-color);
+}
+
 .customer-row:hover,
 .vehicle-row:hover {
   background-color: var(--hover-color);
@@ -304,7 +308,6 @@ h1 {
 .vehicle-details-container,
 .customer-details-container {
   padding: 50px;
-  max-width: 400px;
   display: flex;
   flex-direction: column;
 }
