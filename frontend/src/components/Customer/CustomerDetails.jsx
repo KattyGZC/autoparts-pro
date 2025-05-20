@@ -49,8 +49,15 @@ const CustomerDetails = () => {
                   <p><strong>Address:</strong> {customer.address}</p>
                 </div>
                 <button
+                  className="button button--success"
+                  onClick={() => navigate(`/vehicles/new?customerId=${customer.id}`)}
+                >
+                  Add Vehicle
+                </button>
+                <button
                   className="button button--edit"
                   onClick={() => navigate(`/customers/edit/${customer.id}`)}
+                  style={{ marginLeft: "10px" }}
                 >
                   Edit
                 </button>

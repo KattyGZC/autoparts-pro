@@ -5,38 +5,10 @@ import { getCustomers } from '../../services/customerApi';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const VehicleForm = () => {
+  const navigate = useNavigate();
   const params = useParams();
-  const [vehicleParam, setVehicle] = useState(null);
+  const [vehicleParam, setVehicleParam] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      setLoadingCustomers(true);
-      try {
-        const customers = await getCustomers();
-        setCustomers(customers);
-      } catch (error) {
-        console.error('Error fetching customers:', error);
-      } finally {
-        setLoadingCustomers(false);
-      }
-    };
-    fetchCustomers();
-  }, []);
-
-  useEffect(() => {
-    const fetchVehicle = async () => {
-      if (params.id) {
-        setLoading(true);
-        const vehicle = await getVehicle(params.id);
-        setVehicle(vehicle);
-        setVehicleData(vehicle);
-        setLoading(false);
-      }
-    };
-    fetchVehicle();
-  }, [params.id]);
-
   const [customers, setCustomers] = useState([]);
   const [loadingCustomers, setLoadingCustomers] = useState(true);
   const [vehicleData, setVehicleData] = useState({
@@ -45,10 +17,10 @@ const VehicleForm = () => {
     brand: vehicleParam?.brand || '',
     year: vehicleParam?.year || '',
     color: vehicleParam?.color || '',
-    customer_id: vehicleParam?.customer_id || '',
+    customer_id: vehicleParam?.customer_id || params.customerId || '',
   });
 
-  const navigate = useNavigate();
+  console.log(params);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -83,6 +55,34 @@ const VehicleForm = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      setLoadingCustomers(true);
+      try {
+        const customers = await getCustomers();
+        setCustomers(customers);
+      } catch (error) {
+        console.error('Error fetching customers:', error);
+      } finally {
+        setLoadingCustomers(false);
+      }
+    };
+    fetchCustomers();
+  }, []);
+
+  useEffect(() => {
+    const fetchVehicle = async () => {
+      if (params.id) {
+        setLoading(true);
+        const vehicle = await getVehicle(params.id);
+        setVehicleParam(vehicle);
+        setVehicleData(vehicle);
+        setLoading(false);
+      }
+    };
+    fetchVehicle();
+  }, [params.id]);
 
   return (
     <div className="vehicle-form-container">

@@ -3,7 +3,7 @@ import Home from "./components/Home";
 import CustomerList from "./components/Customer/CustomerList";
 import VehicleList from "./components/Vehicle/VehicleList";
 import VehicleForm from "./components/Vehicle/VehicleForm";
-import VehicleDetails from "./components/Vehicle/VehicleDetail";
+import VehicleDetails from "./components/Vehicle/VehicleDetails";
 import InventoryList from "./components/Inventory/InventoryList";
 import RepairOrderList from "./components/RepairOrder/RepairOrderList";
 import CustomerForm from "./components/Customer/CustomerForm";

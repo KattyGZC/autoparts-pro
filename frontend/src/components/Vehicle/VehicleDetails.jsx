@@ -10,17 +10,6 @@ const VehicleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(null);
 
-  useEffect(() => {
-    const fetchVehicle = async () => {
-      setLoading(true);
-      const data = await getVehicle(id);
-      setVehicle(data);
-      setLoading(false);
-    };
-
-    fetchVehicle();
-  }, [id]);
-
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to delete vehicle ${vehicle.license_plate}?`)) {
       const id = vehicle.id;
@@ -34,6 +23,17 @@ const VehicleDetails = () => {
       setDeleting(null);
     }
   };
+
+  useEffect(() => {
+    const fetchVehicle = async () => {
+      setLoading(true);
+      const data = await getVehicle(id);
+      setVehicle(data);
+      setLoading(false);
+    };
+
+    fetchVehicle();
+  }, [id]);
 
   return (
     <div>
