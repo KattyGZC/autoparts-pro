@@ -37,10 +37,6 @@ const CustomerList = () => {
     }
   };
 
-  const handleDetails = (customer) => {
-    navigate(`/customers/detail/${customer.id}`);
-  };
-
   return (
     <div>
       <Header title="Customers" />
@@ -56,7 +52,6 @@ const CustomerList = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Address</th>
                   <th></th>
                 </tr>
               </thead>
@@ -65,14 +60,29 @@ const CustomerList = () => {
                   <tr
                     key={customer.id}
                     className="customer-row"
-                    onClick={() => handleDetails(customer)}
-                    style={{ cursor: "pointer" }}
                   >
                     <td>{customer.name}</td>
                     <td>{customer.email}</td>
                     <td>{customer.phone}</td>
-                    <td>{customer.address}</td>
                     <td>
+                      <button
+                        className="detail-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/customers/detail/${customer.id}`)
+                        }}
+                      >
+                        See details
+                      </button>
+                      <button
+                        className="edit-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/customers/edit/${customer.id}`)
+                        }}
+                      >
+                        Edit
+                      </button>
                       <button
                         className="delete-button"
                         onClick={(e) => {

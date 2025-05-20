@@ -5,19 +5,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const CustomerForm = () => {
   const params = useParams();
-    const [customerParam, setCustomer] = useState(null);
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      const fetchCustomer = async () => {
+  const [customerParam, setCustomer] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      if (params.id) {
         setLoading(true);
         const customer = await getCustumer(params.id);
         setCustomer(customer)
         setCustomerData(customer)
         setLoading(false);
-      };
-      fetchCustomer();
-    }, [params.id]);
+      }
+    };
+    fetchCustomer();
+  }, [params.id]);
 
   const [customerData, setCustomerData] = useState({
     name: customerParam?.name || '',
@@ -39,8 +41,7 @@ const CustomerForm = () => {
       try {
         const customerEdited = await editCustomer(customerData);
         if (customerEdited) {
-          navigate(-1)
-          navigate(`/customers/detail/${customerEdited.id}`);
+          navigate(`/customers/detail/${customerEdited.id}`, { replace: true });
         } else {
           alert('Failed to edit customer. Please try again.');
         }
@@ -65,19 +66,19 @@ const CustomerForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Name:</label>
-            <input id="name" type="text" name="name" value={customerData.name} onChange={handleChange} required />
+            <input id="name" type="text" name="name" value={customerData?.name} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
-            <input id="email" type="email" name="email" value={customerData.email} onChange={handleChange} required />
+            <input id="email" type="email" name="email" value={customerData?.email} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="phone">Phone:</label>
-            <input id="phone" type="tel" name="phone" value={customerData.phone} onChange={handleChange} required />
+            <input id="phone" type="tel" name="phone" value={customerData?.phone} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="address">Address:</label>
-            <input id="address" type="text" name="address" value={customerData.address} onChange={handleChange} required />
+            <input id="address" type="text" name="address" value={customerData?.address} onChange={handleChange} required />
           </div>
           <button type="submit" className="submit-button">{customerParam ? "Edit Customer" : "Create Customer"}</button>
         </form>
