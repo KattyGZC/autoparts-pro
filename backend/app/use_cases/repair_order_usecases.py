@@ -72,19 +72,7 @@ class RepairOrderUseCase:
 
         current_status = existing_order.status
         next_status = data.status
-
-        valid_transitions = {
-            "pending": ["in_progress", "canceled"],
-            "in_progress": ["completed", "canceled"],
-        }
-
-        if current_status in ["completed", "canceled"]:
-            raise RepairOrderValidationException("Completed or canceled orders cannot be modified.")
-        
-        if next_status not in valid_transitions.get(current_status, []):
-            raise RepairOrderValidationException(
-                f"Cannot change status from {current_status.value} to {next_status.value}."
-            )
+        self._validate_status_transition(current_status, next_status)
 
         total_parts_cost = 0
         if data.parts:
@@ -105,9 +93,24 @@ class RepairOrderUseCase:
         existing_order = self.repair_order_repo.get_by_id(repair_order_id)
         if not existing_order:
             raise RepairOrderNotFoundException(repair_order_id)
+        
+        self._validate_status_transition(existing_order.status, data.status)
         update_payload = data.model_dump(exclude_unset=True)
         updated_order = self.repair_order_repo.update(repair_order_id, update_payload)
         return RepairOrderRead.model_validate(updated_order)
+
+    def _validate_status_transition(self, current_status: RepairOrderStatus, next_status: RepairOrderStatus):
+        valid_transitions = {
+            "pending": ["in_progress", "canceled"],
+            "in_progress": ["completed", "canceled"],
+        }
+
+        if current_status in ["completed", "canceled"]:
+            raise RepairOrderValidationException("Completed or canceled orders cannot be modified.")
+        
+        if next_status not in valid_transitions.get(current_status.value, []):
+            raise RepairOrderValidationException(
+                f"Cannot change status from {current_status.value} to {next_status.value}.")
 
     def _validate_repair_order(self, repair_order: RepairOrderCreate | RepairOrderUpdate):
         if repair_order.labor_cost < 0:
