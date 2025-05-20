@@ -76,3 +76,27 @@ class RepairOrderPartValidationException(RepairOrderPartException):
 class RepairOrderPartDuplicateException(RepairOrderPartException):
     def __init__(self, part_name, repair_order_id):
         super().__init__(f"Part with name {part_name} is already associated with repair order {repair_order_id}.")
+
+
+class RepairOrderOptimizationException(Exception):
+    pass
+
+
+class NoAvailableRepairOrdersException(RepairOrderOptimizationException):
+    def __init__(self):
+        super().__init__("No available repair orders to optimize.")
+
+
+class InventoryConstraintException(RepairOrderOptimizationException):
+    def __init__(self, part_id: str):
+        super().__init__(f"Not enough inventory for part with ID: {part_id} to fulfill any repair order.")
+
+
+class InvalidRepairOrderDataException(RepairOrderOptimizationException):
+    def __init__(self, repair_order_id: str, reason: str):
+        super().__init__(f"Repair order '{repair_order_id}' has invalid data: {reason}")
+
+
+class OptimizationAlgorithmException(RepairOrderOptimizationException):
+    def __init__(self, message: str = "Unexpected error occurred during optimization process."):
+        super().__init__(message)

@@ -56,8 +56,14 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
     
     def get_all_pending_with_parts(self) -> list[RepairOrderORM]:
         return (
-            self.db.query(RepairOrderORM)
-            .filter(RepairOrderORM.state == "pending", RepairOrderORM.is_active == True)
-            .options(joinedload(RepairOrderORM.repair_order_parts))
-            .all()
+        self.db.query(RepairOrderORM)
+        .join(RepairOrderORM.parts)
+        .filter(
+            RepairOrderORM.status == "pending",
+            RepairOrderORM.is_active == True
         )
+        .options(joinedload(RepairOrderORM.parts))
+        .distinct()
+        .all()
+    )
+    
