@@ -103,3 +103,19 @@ def disable_vehicle(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return JSONResponse(status_code=200, content={"detail": "Vehicle deactivated successfully"})
+
+#--------------------------------------------------------------------------------------------
+
+@router.get("/customer/{customer_id}", response_model=list[VehicleRead])
+def get_vehicles_by_customer_id(
+    customer_id: UUID,
+    use_case: VehicleUseCase = Depends(get_vehicle_use_case),
+):
+    "Allows to get all vehicles by customer id"
+    try:
+        return use_case.get_vehicles_by_customer_id(customer_id)
+    except CustomerNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+    

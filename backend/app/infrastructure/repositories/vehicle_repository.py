@@ -46,3 +46,7 @@ class VehicleRepository(BaseRepository[VehicleORM]):
 
     def get_by_license_plate(self, license_plate: str) -> Optional[VehicleORM]:
         return self.db.query(VehicleORM).filter(VehicleORM.license_plate == license_plate).first()
+
+    def get_vehicles_by_customer_id(self, customer_id: UUID) -> list[VehicleORM]:
+        return self.db.query(VehicleORM).filter(VehicleORM.customer_id == customer_id).all()
+    

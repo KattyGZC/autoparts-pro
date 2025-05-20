@@ -58,3 +58,7 @@ class VehicleUseCase:
 
     def disable_vehicle(self, vehicle_id: uuid.UUID) -> bool:
         return self.repository.disable(vehicle_id)
+
+    def get_vehicles_by_customer_id(self, customer_id: uuid.UUID) -> List[VehicleRead]:
+        vehicles = self.repository.get_vehicles_by_customer_id(customer_id)
+        return [VehicleRead.model_validate(v) for v in vehicles]
