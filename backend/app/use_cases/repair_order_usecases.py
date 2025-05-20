@@ -108,8 +108,10 @@ class RepairOrderUseCase:
 
     def _validate_status_transition(self, current_status: RepairOrderStatus, next_status: RepairOrderStatus):
         valid_transitions = {
-            RepairOrderStatus.PENDING: [RepairOrderStatus.IN_PROGRESS, RepairOrderStatus.CANCELLED],
-            RepairOrderStatus.IN_PROGRESS: [RepairOrderStatus.COMPLETED, RepairOrderStatus.CANCELLED],
+            RepairOrderStatus.PENDING: [RepairOrderStatus.PENDING, RepairOrderStatus.IN_PROGRESS, RepairOrderStatus.CANCELLED],
+            RepairOrderStatus.IN_PROGRESS: [RepairOrderStatus.IN_PROGRESS, RepairOrderStatus.COMPLETED, RepairOrderStatus.CANCELLED],
+            RepairOrderStatus.COMPLETED: [RepairOrderStatus.COMPLETED],
+            RepairOrderStatus.CANCELLED: [RepairOrderStatus.CANCELLED],
         }
 
         if current_status in [RepairOrderStatus.COMPLETED, RepairOrderStatus.CANCELLED]:
@@ -117,7 +119,7 @@ class RepairOrderUseCase:
         
         if next_status not in valid_transitions.get(current_status, []):
             raise RepairOrderValidationException(
-                f"Cannot change status from {current_status} to {next_status}.")
+                f"Cannot change status from {current_status.value} to {next_status.value}.")
 
     def _validate_repair_order(self, repair_order: RepairOrderCreate | RepairOrderUpdate):
         current_labor_cost = getattr(repair_order, "labor_cost", 0)
