@@ -2,6 +2,9 @@ from dataclasses import dataclass
 from typing import Optional
 from uuid import UUID
 from app.domain.enums import RepairOrderStatus
+from datetime import datetime
+from dataclasses import field
+from datetime import timezone
 
 @dataclass
 class Customer:
@@ -36,9 +39,15 @@ class InventoryPart:
 class RepairOrder:
     id: UUID
     vehicle_id: UUID
+    customer_id: UUID
     status: RepairOrderStatus
     labor_cost: float
+    date_in: Optional[datetime]
+    date_expected_out: Optional[datetime]
+    date_out: Optional[datetime]
     is_active: bool
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 @dataclass
 class RepairOrderPart:
@@ -47,3 +56,6 @@ class RepairOrderPart:
     part_id: UUID
     quantity: int
     is_active: bool
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    

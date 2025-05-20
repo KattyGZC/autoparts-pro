@@ -1,8 +1,9 @@
 import uuid
-from sqlalchemy import Column, String, Integer, Float, Enum, ForeignKey, Boolean
+from sqlalchemy import Column, String, Integer, Float, Enum, ForeignKey, Boolean, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, declarative_base
 from app.domain.enums import RepairOrderStatus
+from datetime import datetime, timezone
 
 Base = declarative_base()
 
@@ -50,6 +51,11 @@ class RepairOrder(Base):
     customer_id = Column(UUID(as_uuid=True), ForeignKey("customers.id"), nullable=False)
     status = Column(Enum(RepairOrderStatus), default=RepairOrderStatus.PENDING, nullable=False)
     labor_cost = Column(Float, nullable=False)
+    date_in = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    date_expected_out = Column(DateTime, nullable=True)
+    date_out = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     is_active = Column(Boolean, nullable=False, default=True)
 
     vehicle = relationship("Vehicle", back_populates="repair_orders", lazy="select")
@@ -62,6 +68,8 @@ class RepairOrderPart(Base):
     repair_order_id = Column(UUID(as_uuid=True), ForeignKey("repair_orders.id"), nullable=False)
     part_id = Column(UUID(as_uuid=True), ForeignKey("inventory_parts.id"), nullable=False)
     quantity = Column(Integer, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     is_active = Column(Boolean, nullable=False, default=True)
 
     repair_order = relationship("RepairOrder", back_populates="parts", lazy="select")

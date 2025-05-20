@@ -13,6 +13,7 @@ class CustomerDuplicateException(CustomerException):
     def __init__(self, field, value):
         super().__init__(f"Customer with {field} '{value}' already exists.")
 
+
 class VehicleException(Exception):
     pass
 
@@ -43,3 +44,19 @@ class InventoryPartValidationException(InventoryPartException):
 class InventoryPartDuplicateException(InventoryPartException):
     def __init__(self, field, value):
         super().__init__(f"Inventory part with {field} '{value}' already exists.")
+
+
+class RepairOrderException(Exception):
+    pass
+
+class RepairOrderNotFoundException(RepairOrderException):
+    def __init__(self, repair_order_id):
+        super().__init__(f"Repair order with id {repair_order_id} not found.")
+
+class RepairOrderValidationException(RepairOrderException):
+    def __init__(self, message):
+        super().__init__(message)
+
+class RepairOrderConflictException(RepairOrderException):
+    def __init__(self, message):
+        super().__init__(message)
