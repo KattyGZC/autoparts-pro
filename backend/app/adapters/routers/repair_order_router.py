@@ -5,7 +5,8 @@ from sqlalchemy.orm import Session
 from app.adapters.schemas.repair_order import (
     RepairOrderCreate,
     RepairOrderUpdate,
-    RepairOrderRead
+    RepairOrderRead,
+    RepairOrderUpdateStatusRequest
 )
 from app.adapters.schemas.inventory_part import PartDetailByInventoryPart
 from app.infrastructure.db.session import get_db
@@ -122,3 +123,22 @@ def get_parts_used_in_order(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return parts
+
+#--------------------------------------------------------------------------------------------
+
+@router.patch("/update-status/{repair_order_id}", status_code=status.HTTP_200_OK, response_model=RepairOrderRead)
+def update_repair_order_status(
+    repair_order_id: UUID,
+    repair_order_status: RepairOrderUpdateStatusRequest,
+    use_case: RepairOrderUseCase = Depends(get_repair_order_use_case),
+):
+    "Allows to update the status of a repair order"
+    try:
+        updated = use_case.update_repair_order_status(repair_order_id, repair_order_status)
+    except RepairOrderNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except RepairOrderValidationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+    return updated

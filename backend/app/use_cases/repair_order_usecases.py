@@ -6,7 +6,7 @@ from app.domain.exceptions import (
     VehicleNotFoundException,
     CustomerNotFoundException
 )
-
+from app.adapters.schemas.repair_order import RepairOrderUpdateStatusRequest
 from app.infrastructure.repositories.repair_order_part_repository import RepairOrderPartRepository
 from app.infrastructure.repositories.repair_order_repository import RepairOrderRepository
 from app.infrastructure.repositories.vehicle_repository import VehicleRepository
@@ -62,7 +62,6 @@ class RepairOrderUseCase:
 
     def get_all_repair_orders(self) -> list[RepairOrderRead]:
         return [RepairOrderRead.model_validate(order) for order in self.repair_order_repo.get_all()]
-
    
     def update_repair_order(self, repair_order_id: UUID, data: RepairOrderUpdate) -> RepairOrderRead:
         self._validate_repair_order(data)
@@ -99,6 +98,14 @@ class RepairOrderUseCase:
         update_payload["total_cost_repair"] = total_cost
         update_payload.pop("parts", None)
 
+        updated_order = self.repair_order_repo.update(repair_order_id, update_payload)
+        return RepairOrderRead.model_validate(updated_order)
+
+    def update_repair_order_status(self, repair_order_id: UUID, data: RepairOrderUpdateStatusRequest) -> RepairOrderRead:
+        existing_order = self.repair_order_repo.get_by_id(repair_order_id)
+        if not existing_order:
+            raise RepairOrderNotFoundException(repair_order_id)
+        update_payload = data.model_dump(exclude_unset=True)
         updated_order = self.repair_order_repo.update(repair_order_id, update_payload)
         return RepairOrderRead.model_validate(updated_order)
 

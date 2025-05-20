@@ -26,3 +26,6 @@ class RepairOrderRead(RepairOrderBase):
     vehicle: VehicleSimpleResponse
     customer: CustomerSimpleResponse
     date_in: datetime
+
+class RepairOrderUpdateStatusRequest(BaseSchema):
+    status: RepairOrderStatus
