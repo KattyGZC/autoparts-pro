@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../Header";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteCustomer, getCustumer } from "../../services/api";
+import { deleteCustomer, getCustumer } from "../../services/customerApi";
 
 const CustomerDetails = () => {
   const navigate = useNavigate();

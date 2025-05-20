@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../Header';
-import { createCustomer, editCustomer, getCustumer } from '../../services/api';
+import { createCustomer, editCustomer, getCustumer } from '../../services/customerApi';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const CustomerForm = () => {
