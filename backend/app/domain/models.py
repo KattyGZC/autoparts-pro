@@ -42,7 +42,7 @@ class RepairOrder:
     vehicle_id: UUID
     customer_id: UUID
     status: RepairOrderStatus
-    labor_cost: float
+    labor_cost: Optional[float]
     date_in: Optional[datetime]
     date_expected_out: Optional[datetime]
     date_out: Optional[datetime]

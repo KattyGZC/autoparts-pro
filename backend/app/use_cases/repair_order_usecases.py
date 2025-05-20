@@ -13,6 +13,7 @@ from app.infrastructure.repositories.vehicle_repository import VehicleRepository
 from app.infrastructure.repositories.customer_repository import CustomerRepository
 from uuid import UUID
 import uuid
+from datetime import datetime
 from app.adapters.schemas.repair_order import RepairOrderCreate, RepairOrderRead, RepairOrderUpdate
 from app.adapters.schemas.inventory_part import PartDetailByInventoryPart
 from app.infrastructure.repositories.inventory_part_repository import InventoryPartRepository
@@ -48,10 +49,16 @@ class RepairOrderUseCase:
             id=uuid.uuid4(),
             vehicle_id=repair_order.vehicle_id,
             customer_id=repair_order.customer_id,
+            status=RepairOrderStatus.PENDING,
+            labor_cost=0,
+            date_in=datetime.now(),
+            date_expected_out=None,
+            date_out=None,
+            total_cost_repair=0,
             is_active=True,
-            status=RepairOrderStatus.PENDING
         )
         orm_repair_order = self.repair_order_repo.add(new_repair_order)
+        orm_repair_order = self.repair_order_repo.get_by_id_with_relations(new_repair_order.id)
         return RepairOrderRead.model_validate(orm_repair_order)
 
     def get_repair_order_by_id(self, repair_order_id: UUID) -> RepairOrderRead:
@@ -113,10 +120,12 @@ class RepairOrderUseCase:
                 f"Cannot change status from {current_status.value} to {next_status.value}.")
 
     def _validate_repair_order(self, repair_order: RepairOrderCreate | RepairOrderUpdate):
-        if repair_order.labor_cost < 0:
+        current_labor_cost = getattr(repair_order, "labor_cost", 0)
+        current_status = getattr(repair_order, "status", None)
+        if current_labor_cost and current_labor_cost < 0:
             raise RepairOrderValidationException("Labor cost cannot be negative.")
-        if repair_order.status not in [item.value for item in RepairOrderStatus]:
-            raise RepairOrderValidationException(f"Invalid status: {repair_order.status}")
+        if current_status and current_status not in [item.value for item in RepairOrderStatus]:
+            raise RepairOrderValidationException(f"Invalid status: {current_status}")
 
     def get_repair_orders_by_vehicle_id(self, vehicle_id: uuid.UUID) -> list[RepairOrderRead]:
         repair_orders = self.repair_order_repo.get_by_vehicle_id(vehicle_id)

@@ -51,7 +51,7 @@ class RepairOrder(Base):
     vehicle_id = Column(UUID(as_uuid=True), ForeignKey("vehicles.id"), nullable=False)
     customer_id = Column(UUID(as_uuid=True), ForeignKey("customers.id"), nullable=False)
     status = Column(Enum(RepairOrderStatus), default=RepairOrderStatus.PENDING, nullable=False)
-    labor_cost = Column(Float, nullable=False)
+    labor_cost = Column(Float, nullable=False, default=0)
     date_in = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     date_expected_out = Column(DateTime, nullable=True)
     date_out = Column(DateTime, nullable=True)

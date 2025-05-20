@@ -5,7 +5,7 @@ from datetime import datetime
 from app.infrastructure.db.models import RepairOrder as RepairOrderORM
 from app.infrastructure.repositories.base_repository import BaseRepository
 from app.domain.models import RepairOrder
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, selectinload
 
 class RepairOrderRepository(BaseRepository[RepairOrderORM]):
     def __init__(self, db: Session):
@@ -24,7 +24,7 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
             customer_id=repair_order.customer_id,
             is_active=repair_order.is_active,
             status=repair_order.status,
-            labor_cost=repair_order.labor_cost,
+            labor_cost=0,
             date_in=repair_order.date_in,
             date_expected_out=repair_order.date_expected_out,
             date_out=repair_order.date_out,
@@ -66,4 +66,15 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
         .distinct()
         .all()
     )
+
+    def get_by_id_with_relations(self, id: UUID) -> Optional[RepairOrderORM]:
+        return (
+            self.db.query(RepairOrderORM)
+            .options(
+                selectinload(RepairOrderORM.vehicle),
+                selectinload(RepairOrderORM.customer),
+            )
+            .filter(RepairOrderORM.id == id)
+            .first()
+        )
     
