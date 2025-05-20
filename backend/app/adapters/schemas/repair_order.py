@@ -2,7 +2,7 @@ from uuid import UUID
 from app.domain.enums import RepairOrderStatus
 from app.adapters.schemas.base import BaseSchema
 from app.adapters.schemas.repair_order_part import RepairOrderPartRequest
-from app.adapters.schemas.customer import CustomerDetailResponse
+from app.adapters.schemas.customer import CustomerSimpleResponse
 from app.adapters.schemas.vehicle import VehicleSimpleResponse
 from datetime import datetime
 from typing import Optional
@@ -24,5 +24,5 @@ class RepairOrderUpdate(RepairOrderBase):
 class RepairOrderRead(RepairOrderBase):
     id: UUID
     vehicle: VehicleSimpleResponse
-    customer: CustomerDetailResponse
+    customer: CustomerSimpleResponse
     date_in: datetime
