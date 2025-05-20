@@ -370,22 +370,23 @@ h1 {
   background: var(--red-300);
 }
 
-.vehicle-short-table {
+.short-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.vehicle-short-table th,
-.vehicle-short-table td {
+.short-table th,
+.short-table td {
   padding: 10px;
   text-align: left;
 }
 
-.vehicle-short-table th {
+.short-table th {
   background-color: var(--marine-blue-300);
   color: white;
 }
 
-.vehicle-short-table tr {
+.short-table tr {
   border-bottom: 1px solid var(--border-color);
 }

@@ -89,13 +89,14 @@ const CustomerDetails = () => {
                     vehicles.length === 0 ? (
                       <p>No vehicles associated with this customer.</p>
                     ) : (
-                      <table className="vehicle-short-table">
+                      <table className="short-table">
                         <thead>
                           <tr>
                             <th>Brand</th>
                             <th>Year</th>
                             <th>Color</th>
                             <th>License Plate</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -105,6 +106,14 @@ const CustomerDetails = () => {
                               <td>{vehicle.year}</td>
                               <td>{vehicle.color}</td>
                               <td>{vehicle.license_plate}</td>
+                              <td>
+                                <button
+                                  className="button button--info badge"
+                                  onClick={() => navigate(`/vehicles/detail/${vehicle.id}`)}
+                                >
+                                  View
+                                </button>
+                              </td>
                             </tr>
                           ))}
                         </tbody>
