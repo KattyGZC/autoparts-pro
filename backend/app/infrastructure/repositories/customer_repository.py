@@ -32,7 +32,7 @@ class CustomerRepository(BaseRepository[CustomerORM]):
         return super().get_by_id(customer_id)
 
     def get_all(self) -> list[Customer]:
-        return super().get_all()
+        return self.db.query(self.model).filter(self.model.is_active == True).all()
 
     def update(self, customer_id: UUID, updates: dict) -> Customer | None:
         return super().update(customer_id, updates)

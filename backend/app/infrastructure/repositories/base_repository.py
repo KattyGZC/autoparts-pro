@@ -15,9 +15,7 @@ class BaseRepository(Generic[T]):
                 .first())
 
     def get_all(self) -> list[T]:
-        return (self.db.query(self.model)
-                .filter(self.model.is_active == True)
-                .all())
+        return self.db.query(self.model).all()
 
     def add(self, obj: T) -> T:
         self.db.add(obj)

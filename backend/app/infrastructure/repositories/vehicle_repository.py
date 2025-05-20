@@ -36,7 +36,9 @@ class VehicleRepository(BaseRepository[VehicleORM]):
         return super().get_by_id(vehicle_id)
 
     def get_all(self) -> list[Vehicle]:
-        return super().get_all()
+        return (self.db.query(self.model)
+                .order_by(self.model.is_active.desc())
+                .all())
 
     def update(self, vehicle_id: UUID, updates: dict) -> Vehicle | None:
         return super().update(vehicle_id, updates)
