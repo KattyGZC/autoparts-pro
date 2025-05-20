@@ -6,16 +6,23 @@ from app.adapters.schemas.vehicle import (
     VehicleRead
 )
 from app.infrastructure.repositories.vehicle_repository import VehicleRepository
+from app.infrastructure.repositories.customer_repository import CustomerRepository
 import uuid
-from app.domain.exceptions import VehicleDuplicateException, VehicleNotFoundException
+from app.domain.exceptions import VehicleDuplicateException, VehicleNotFoundException, VehicleValidationException, CustomerNotFoundException
 
 class VehicleUseCase:
-    def __init__(self, repository: VehicleRepository):
+    def __init__(self, repository: VehicleRepository, customer_repo: CustomerRepository):
         self.repository = repository
+        self.customer_repo = customer_repo
 
     def create_vehicle(self, vehicle_data: VehicleCreate) -> VehicleRead:
         if vehicle_data.license_plate and self.repository.get_by_license_plate(vehicle_data.license_plate):
             raise VehicleDuplicateException("license_plate", vehicle_data.license_plate)
+        if not vehicle_data.customer_id:
+            raise VehicleValidationException("Customer ID is required.")
+        if not self.customer_repo.get_by_id(vehicle_data.customer_id):
+            raise CustomerNotFoundException(vehicle_data.customer_id)
+    
         new_vehicle = Vehicle(
             id=uuid.uuid4(),
             brand=vehicle_data.brand,
@@ -40,6 +47,10 @@ class VehicleUseCase:
         return [VehicleRead.model_validate(v) for v in vehicles]
 
     def update_vehicle(self, vehicle_id: uuid.UUID, data: VehicleUpdate) -> Optional[VehicleRead]:
+        if not data.customer_id:
+            raise VehicleValidationException("Customer ID is required.")
+        if not self.customer_repo.get_by_id(data.customer_id):
+            raise CustomerNotFoundException(data.customer_id)
         updated_vehicle = self.repository.update(vehicle_id, data.model_dump(exclude_unset=True))
         if not updated_vehicle:
             raise VehicleNotFoundException(vehicle_id)

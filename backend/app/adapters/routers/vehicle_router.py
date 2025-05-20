@@ -10,13 +10,15 @@ from app.adapters.schemas.vehicle import (
 from app.infrastructure.db.session import get_db
 from app.infrastructure.repositories.vehicle_repository import VehicleRepository
 from app.use_cases.vehicle_usecases import VehicleUseCase
-from app.domain.exceptions import VehicleDuplicateException, VehicleValidationException, VehicleNotFoundException
+from app.domain.exceptions import VehicleDuplicateException, VehicleValidationException, VehicleNotFoundException, CustomerNotFoundException
+from app.infrastructure.repositories.customer_repository import CustomerRepository
 
 router = APIRouter(prefix="/api/v1/vehicles", tags=["Vehicles"])
 
 def get_vehicle_use_case(db: Session = Depends(get_db)) -> VehicleUseCase:
     repository = VehicleRepository(db)
-    return VehicleUseCase(repository)
+    customer_repo = CustomerRepository(db)
+    return VehicleUseCase(repository, customer_repo)
 
 @router.post("/create", response_model=VehicleRead, status_code=status.HTTP_201_CREATED)
 def create_vehicle(
@@ -30,6 +32,8 @@ def create_vehicle(
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
     except VehicleValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except CustomerNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
 
@@ -78,6 +82,8 @@ def update_vehicle(
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
     except VehicleValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except CustomerNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
     return updated
