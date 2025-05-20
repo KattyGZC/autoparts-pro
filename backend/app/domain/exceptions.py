@@ -60,3 +60,19 @@ class RepairOrderValidationException(RepairOrderException):
 class RepairOrderConflictException(RepairOrderException):
     def __init__(self, message):
         super().__init__(message)
+
+
+class RepairOrderPartException(Exception):
+    pass
+
+class RepairOrderPartNotFoundException(RepairOrderPartException):
+    def __init__(self, repair_order_part_id):
+        super().__init__(f"Repair order part with id {repair_order_part_id} not found.")
+
+class RepairOrderPartValidationException(RepairOrderPartException):
+    def __init__(self, message):
+        super().__init__(message)
+
+class RepairOrderPartDuplicateException(RepairOrderPartException):
+    def __init__(self, repair_order_id, part_id):
+        super().__init__(f"Part with id {part_id} is already associated with repair order {repair_order_id}.")

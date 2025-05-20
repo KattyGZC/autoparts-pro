@@ -24,14 +24,15 @@ class RepairOrderUseCase:
         self.customer_repo = customer_repo
 
     def create_repair_order(self, repair_order: RepairOrderCreate) -> RepairOrderRead:
-        if not self.vehicle_repo.get_by_id(str(repair_order.vehicle_id)):
+        if not repair_order.customer_id:
+            raise RepairOrderValidationException("Customer ID is required.")
+        if not repair_order.vehicle_id:
+            raise RepairOrderValidationException("Vehicle ID is required.") 
+        self._validate_repair_order(repair_order)
+        if not self.vehicle_repo.get_by_id(repair_order.vehicle_id):
             raise VehicleNotFoundException(repair_order.vehicle_id)
-        
-        if not self.customer_repo.get_by_id(str(repair_order.customer_id)):
+        if not self.customer_repo.get_by_id(repair_order.customer_id):
             raise CustomerNotFoundException(repair_order.customer_id)
-
-        if repair_order.labor_cost < 0:
-            raise RepairOrderValidationException("Labor cost cannot be negative.")
         
         new_repair_order = RepairOrder(
             id=uuid.uuid4(),
@@ -47,8 +48,8 @@ class RepairOrderUseCase:
         orm_repair_order = self.repair_order_repo.add(new_repair_order)
         return RepairOrderRead.model_validate(orm_repair_order)
 
-    def get_repair_order_by_id(self, repair_order_id: UUID) -> RepairOrderRead:
-        repair_order = self.repair_order_repo.get_by_id(str(repair_order_id))
+    def get_repair_order_by_id(self, repair_order_id: uuid.UUID) -> RepairOrderRead:
+        repair_order = self.repair_order_repo.get_by_id(repair_order_id)
         if not repair_order:
             raise RepairOrderNotFoundException(repair_order_id)
         return RepairOrderRead.model_validate(repair_order)
@@ -58,14 +59,14 @@ class RepairOrderUseCase:
 
    
     def update_repair_order(self, repair_order_id: uuid.UUID, data: RepairOrderUpdate) -> RepairOrderRead:
-        if data.labor_cost and data.labor_cost < 0:
-            raise RepairOrderValidationException("Labor cost cannot be negative.")
-
-        if data.status not in [item.value for item in RepairOrderStatus]:
-            raise RepairOrderValidationException(f"Invalid status: {data.status}")
-
+        self._validate_repair_order(data)
         updated_repair_order = self.repair_order_repo.update(repair_order_id, data.model_dump(exclude_unset=True))
         if not updated_repair_order:
             raise RepairOrderNotFoundException(repair_order_id)
         return RepairOrderRead.model_validate(updated_repair_order)
 
+    def _validate_repair_order(self, repair_order: RepairOrderCreate | RepairOrderUpdate):
+        if repair_order.labor_cost < 0:
+            raise RepairOrderValidationException("Labor cost cannot be negative.")
+        if repair_order.status not in [item.value for item in RepairOrderStatus]:
+            raise RepairOrderValidationException(f"Invalid status: {repair_order.status}")

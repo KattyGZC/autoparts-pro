@@ -47,6 +47,3 @@ class RepairOrderRepository(BaseRepository[RepairOrderORM]):
 
     def update(self, id: UUID, updates: dict) -> RepairOrder | None:
         return super().update(id, updates)
-
-    def disable(self, id: UUID) -> bool:
-        return super().disable(id)
