@@ -54,6 +54,7 @@ class RepairOrder(Base):
     date_in = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     date_expected_out = Column(DateTime, nullable=True)
     date_out = Column(DateTime, nullable=True)
+    total_cost_repair = Column(Float, nullable=False, default=0)
     created_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     is_active = Column(Boolean, nullable=False, default=True)

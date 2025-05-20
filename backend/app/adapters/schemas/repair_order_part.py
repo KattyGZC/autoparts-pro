@@ -15,3 +15,6 @@ class RepairOrderPartRead(RepairOrderPartBase):
     id: UUID
     repair_order_id: UUID
     part_id: UUID
+
+class RepairOrderPartRequest(RepairOrderPartBase):
+    part_id: UUID

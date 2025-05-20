@@ -74,5 +74,5 @@ class RepairOrderPartValidationException(RepairOrderPartException):
         super().__init__(message)
 
 class RepairOrderPartDuplicateException(RepairOrderPartException):
-    def __init__(self, repair_order_id, part_id):
-        super().__init__(f"Part with id {part_id} is already associated with repair order {repair_order_id}.")
+    def __init__(self, part_name, repair_order_id):
+        super().__init__(f"Part with name {part_name} is already associated with repair order {repair_order_id}.")

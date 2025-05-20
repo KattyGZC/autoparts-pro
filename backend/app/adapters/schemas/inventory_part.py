@@ -16,3 +16,9 @@ class InventoryPartUpdate(InventoryPartBase):
 
 class InventoryPartRead(InventoryPartBase):
     id: UUID
+
+class PartDetailByInventoryPart(BaseSchema):
+    id: UUID
+    name: str
+    description: Optional[str] = None
+    cost: float

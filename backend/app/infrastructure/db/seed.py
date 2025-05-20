@@ -106,6 +106,7 @@ def create_fake_repair_order(vehicle_id, customer_id):
         "labor_cost": fake.pyfloat(left_digits=4, right_digits=2, positive=True),
         "date_in": fake.date_time(),
         "date_expected_out": fake.date_time(),
+        "total_cost_repair": fake.pyfloat(left_digits=4, right_digits=2, positive=True),
         "date_out": None,
         "is_active": True
     }

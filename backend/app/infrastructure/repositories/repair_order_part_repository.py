@@ -16,7 +16,7 @@ class RepairOrderPartRepository(BaseRepository[RepairOrderPartORM]):
     def get_all(self) -> list[RepairOrderPartORM]:
         return super().get_all()
 
-    def add(self, repair_order_part: RepairOrderPartORM) -> RepairOrderPartORM:
+    def add(self, repair_order_part: RepairOrderPart) -> RepairOrderPart:
         orm_repair_order_part = RepairOrderPartORM(
             id=repair_order_part.id,
             repair_order_id=repair_order_part.repair_order_id,
@@ -39,3 +39,27 @@ class RepairOrderPartRepository(BaseRepository[RepairOrderPartORM]):
 
     def update(self, id: UUID, updates: dict) -> RepairOrderPart | None:
         return super().update(id, updates)
+
+    def get_by_order_and_part(self, order_id: UUID, part_id: UUID) -> Optional[RepairOrderPart]:
+        return (
+            self.db.query(self.model)
+            .filter(
+                self.model.repair_order_id == order_id,
+                self.model.part_id == part_id,
+                self.model.is_active == True
+            )
+            .first()
+        )
+
+    def get_by_order_id(self, order_id: UUID) -> list[RepairOrderPart]:
+        return (
+            self.db.query(self.model)
+            .filter(
+                self.model.repair_order_id == order_id,
+                self.model.is_active == True
+            )
+            .all()
+        )
+
+    def delete(self, id: UUID) -> bool:
+        return super().disable(id)

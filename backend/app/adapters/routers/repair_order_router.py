@@ -13,6 +13,9 @@ from app.use_cases.repair_order_usecases import RepairOrderUseCase
 from app.infrastructure.repositories.vehicle_repository import VehicleRepository
 from app.infrastructure.repositories.customer_repository import CustomerRepository
 from app.domain.exceptions import RepairOrderValidationException, RepairOrderNotFoundException
+from app.infrastructure.repositories.inventory_part_repository import InventoryPartRepository
+from app.infrastructure.repositories.repair_order_part_repository import RepairOrderPartRepository
+from app.use_cases.repair_order_part_usecases import RepairOrderPartUseCase
 
 router = APIRouter(prefix="/api/v1/repair_orders", tags=["Repair Orders"])
 
@@ -20,7 +23,10 @@ def get_repair_order_use_case(db: Session = Depends(get_db)) -> RepairOrderUseCa
     vehicle_repo= VehicleRepository(db)
     customer_repo= CustomerRepository(db)
     repository = RepairOrderRepository(db)
-    return RepairOrderUseCase(repository, vehicle_repo, customer_repo)
+    repair_order_part_repo = RepairOrderPartRepository(db)
+    part_repo = InventoryPartRepository(db)
+    repair_order_part_usecase = RepairOrderPartUseCase(repair_order_part_repo, repository, part_repo)
+    return RepairOrderUseCase(repository, vehicle_repo, customer_repo, part_repo, repair_order_part_usecase)
 
 @router.post("/create", response_model=RepairOrderRead, status_code=status.HTTP_201_CREATED)
 def create_repair_order(
@@ -47,7 +53,7 @@ def get_all_repair_orders(
     try:
         return use_case.get_all_repair_orders()
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 #--------------------------------------------------------------------------------------------
 
@@ -81,7 +87,7 @@ def update_repair_order(
     except RepairOrderValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)) 
     return updated
 
 #--------------------------------------------------------------------------------------------
