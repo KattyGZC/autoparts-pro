@@ -134,6 +134,10 @@ h1 {
   color: white;
 }
 
+.is-not-active {
+  color: var(--border-color);
+}
+
 .is-not-active td {
   color: var(--border-color);
 }
@@ -349,4 +353,24 @@ h1 {
 
 .customer-details .button--delete:disabled {
   background: var(--red-300);
+}
+
+.vehicle-short-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vehicle-short-table th,
+.vehicle-short-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.vehicle-short-table th {
+  background-color: var(--marine-blue-300);
+  color: white;
+}
+
+.vehicle-short-table tr {
+  border-bottom: 1px solid var(--border-color);
 }

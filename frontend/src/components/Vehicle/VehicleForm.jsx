@@ -19,7 +19,7 @@ const VehicleForm = () => {
     brand: vehicleParam?.brand || '',
     year: vehicleParam?.year || '',
     color: vehicleParam?.color || '',
-    customer_id: vehicleParam?.customer_id || customerId || '',
+    customer_id: vehicleParam?.customer?.id || customerId || '',
   });
 
   const handleChange = (e) => {
@@ -79,7 +79,14 @@ const VehicleForm = () => {
         setLoading(true);
         const vehicle = await getVehicle(params.id);
         setVehicleParam(vehicle);
-        setVehicleData(vehicle);
+        setVehicleData({
+          license_plate: vehicle.license_plate,
+          model: vehicle.model,
+          brand: vehicle.brand,
+          year: vehicle.year,
+          color: vehicle.color,
+          customer_id: vehicle.customer.id,
+        });
         setLoading(false);
       }
     };

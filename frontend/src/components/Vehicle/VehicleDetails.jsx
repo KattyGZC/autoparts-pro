@@ -49,7 +49,7 @@ const VehicleDetails = () => {
                   <p><strong>Brand:</strong> {vehicle.brand}</p>
                   <p><strong>Year:</strong> {vehicle.year}</p>
                   <p><strong>Color:</strong> {vehicle.color}</p>
-                  <p><strong>Customer ID:</strong> {vehicle.customer_id}</p>
+                  <p><strong>Customer:</strong> <span className={vehicle.customer.is_active ? '' : 'is-not-active'}>{vehicle.customer.name}</span></p>
                 </div>
                 <button
                   className="button button--edit"

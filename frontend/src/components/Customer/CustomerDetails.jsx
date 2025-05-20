@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteCustomer, getCustumer } from "../../services/customerApi";
+import { getVehiclesByCustomer } from "../../services/vehicleApi";
 
 const CustomerDetails = () => {
   const navigate = useNavigate();
@@ -9,6 +10,9 @@ const CustomerDetails = () => {
   const [customer, setCustomer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(null);
+
+  const [loadingVehicles, setLoadingVehicles] = useState(true);
+  const [vehicles, setVehicles] = useState([]);
 
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to delete the customer ${customer.name}?`)) {
@@ -32,6 +36,16 @@ const CustomerDetails = () => {
       setLoading(false);
     };
     fetchCustomer();
+  }, [params.id]);
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      setLoadingVehicles(true);
+      const vehicles = await getVehiclesByCustomer(params.id);
+      setVehicles(vehicles)
+      setLoadingVehicles(false);
+    };
+    fetchVehicles();
   }, [params.id]);
 
   return (
@@ -69,6 +83,34 @@ const CustomerDetails = () => {
                 >
                   {deleting ? "Deleting Customer..." : "Delete Customer"}
                 </button>
+                <h4>VEHICLES</h4>
+                <div className="vehicle-short-list">
+                  {loadingVehicles ? <p>Loading vehicles...</p> :
+                    vehicles.length === 0 ? (
+                      <p>No vehicles associated with this customer.</p>
+                    ) : (
+                      <table className="vehicle-short-table">
+                        <thead>
+                          <tr>
+                            <th>Brand</th>
+                            <th>Year</th>
+                            <th>Color</th>
+                            <th>License Plate</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {vehicles.map((vehicle) => (
+                            <tr key={vehicle.id}>
+                              <td>{vehicle.brand}</td>
+                              <td>{vehicle.year}</td>
+                              <td>{vehicle.color}</td>
+                              <td>{vehicle.license_plate}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                </div>
               </div>
             )}
 

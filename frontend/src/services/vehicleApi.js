@@ -58,3 +58,13 @@ export const editVehicle = async (vehicle) => {
     return null;
   }
 };
+
+export const getVehiclesByCustomer = async (customerId) => {
+  try {
+    const response = await axios.get(`${API_URL}/vehicles/customer/${customerId}`);
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching vehicles for customer:', error);
+    return [];
+  }
+};

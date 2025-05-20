@@ -66,7 +66,7 @@ const VehicleList = () => {
                   <td>{vehicle.year}</td>
                   <td>{vehicle.color}</td>
                   <td>{vehicle.license_plate}</td>
-                  <td>{vehicle.customer_id}</td>
+                  <td className={vehicle.customer.is_active ? '' : 'is-not-active'}>{vehicle.customer.name}</td>
                   <td>
                     <button
                       className="button button--info badge"
