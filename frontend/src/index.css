@@ -1,9 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+:root {
+
+  --text-color: #333;
+  --border-color: #ccc;
+  --hover-color: #f5f5f5;
+
+  --marine-blue-100: #3b556b;
+  --marine-blue-200: #34495e;
+  --marine-blue-300: #2c3e50;
+
+  --blue-100: #25b3eb;
+  --blue-200: #209ed0;
+
+  --purple-100: #4b51c5;
+  --purple-200: #383ea2;
+
+  --green-100: #4CAF50;
+  --green-200: #45a049;
+  --green-300: #1B4D1B;
+
+  --red-100: #F44336;
+  --red-200: #e53935;
+  --red-300: #7B1A1A;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
-  color: #333;
+  color: var(--text-color);
 }
 
 .home-container {
@@ -39,15 +64,14 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  background-color: #2c3e50;
+  background-color: var(--marine-blue-300);
   color: white;
   padding: 15px 30px;
-  border-bottom: 2px solid #1a252f;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .back-button {
-  background-color: #34495e;
+  background-color: var(--marine-blue-200);
   border: none;
   color: white;
   padding: 10px 15px;
@@ -57,7 +81,7 @@ body {
 }
 
 .back-button:hover {
-  background-color: #3b556b;
+  background-color: var(--marine-blue-100);
 }
 
 h1 {
@@ -65,6 +89,7 @@ h1 {
   font-size: 24px;
 }
 
+.vehicle-list-container,
 .customer-list-container {
   margin: 20px;
 }
@@ -72,7 +97,7 @@ h1 {
 .new-customer-button {
   margin-bottom: 20px;
   padding: 10px 15px;
-  background-color: #4CAF50;
+  background-color: var(--green-100);
   color: white;
   border: none;
   border-radius: 4px;
@@ -81,90 +106,129 @@ h1 {
 }
 
 .new-customer-button:hover {
-  background-color: #45a049;
+  background-color: var(--green-200);
 }
 
 .new-customer-button:disabled {
-  background-color: #1B4D1B;
+  background-color: var(--green-300);
 }
 
+.vehicle-table,
 .customer-table {
   width: 100%;
   border-collapse: collapse;
 }
 
+.vehicle-table th,
+.vehicle-table td,
 .customer-table th,
 .customer-table td {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   padding: 10px;
   text-align: left;
 }
 
+.vehicle-table th,
 .customer-table th {
-  background-color: #2c3e50;
+  background-color: var(--marine-blue-300);
   color: white;
 }
 
-.customer-row:hover {
-  background-color: #f5f5f5;
+.customer-row:hover,
+.vehicle-row:hover {
+  background-color: var(--hover-color);
 }
 
-.detail-button {
-  background-color: #4b51c5;
+.button {
+  padding: 8px 20px;
   color: white;
   border: none;
-  padding: 4px 7px;
   border-radius: 4px;
+  font-weight: 500;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover,
+.button:focus {
+  background-color: var(--marine-blue-100);
+}
+
+.badge {
+  padding: 4px 7px;
+  width: auto;
   margin-right: 5px;
-  transition: background-color 0.3s;
 }
 
-.detail-button:hover {
-  background-color: #383ea2;
+.button--primary {
+  background-color: var(--marine-blue-200);
 }
 
-.edit-button {
-  background-color: #25b3eb;
-  color: white;
-  border: none;
-  padding: 4px 7px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 5px;
-  transition: background-color 0.3s;
+.button--primary:hover,
+.button--primary:focus {
+  background-color: var(--marine-blue-100);
 }
 
-.edit-button:hover {
-  background-color: #209ed0;
+.button--success {
+  background-color: var(--green-100);
+  margin-bottom: 10px;
+  max-width: 600px;
+  min-width: 100px;
+  align-self: center;
 }
 
-.delete-button {
-  background-color: #F44336;
-  color: white;
-  border: none;
-  padding: 4px 7px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.button--success:hover,
+.button--success:focus {
+  background-color: var(--green-200);
 }
 
-.delete-button:hover {
-  background-color: #e53935;
+.button--success:disabled {
+  background-color: var(--green-300);
 }
 
-.delete-button:disabled {
-  background-color: #7B1A1A;
+.button--info {
+  background-color: var(--purple-100);
 }
 
+.button--info:hover,
+.button--info:focus {
+  background-color: var(--purple-200);
+}
+
+.button--edit {
+  background-color: var(--blue-100);
+}
+
+.button--edit:hover,
+.button--edit:focus {
+  background-color: var(--blue-200);
+}
+
+.button--delete {
+  background-color: var(--red-100);
+}
+
+.button--delete:hover,
+.button--delete:focus {
+  background-color: var(--red-200);
+}
+
+.button--delete:disabled {
+  background-color: var(--red-300);
+}
+
+.vehicle-form-container,
 .customer-form-container {
   margin: 0 auto;
 }
 
+.vehicle-form,
 .customer-form {
   padding: 50px;
 }
 
+.vehicle-form form,
 .customer-form form {
   display: flex;
   flex-direction: column;
@@ -179,23 +243,23 @@ h1 {
 .form-group label {
   margin-bottom: 5px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
 }
 
 .form-group input {
   padding: 10px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   font-size: 14px;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--green-100);
 }
 
 .submit-button {
-  background-color: #4CAF50;
+  background-color: var(--green-100);
   color: white;
   padding: 10px 15px;
   border: none;
@@ -206,14 +270,15 @@ h1 {
 }
 
 .submit-button:hover {
-  background-color: #45a049;
+  background-color: var(--green-200);
 }
 
 .submit-button:disabled {
-  background-color: #7B1A1A;
+  background-color: var(--green-300);
   cursor: not-allowed;
 }
 
+.vehicle-details-container,
 .customer-details-container {
   padding: 50px;
   max-width: 400px;
@@ -221,16 +286,17 @@ h1 {
   flex-direction: column;
 }
 
+.vehicle-details p,
 .customer-details p {
   margin: 8px 0;
   font-size: 1.05rem;
 }
 
-.edit-customer-button {
+.customer-details .button--edit {
   margin-top: 24px;
   padding: 8px 20px;
-  background: #25b3eb;
-  color: #fff;
+  background: var(--blue-100);
+  color: white;
   border: none;
   border-radius: 4px;
   font-weight: 500;
@@ -240,17 +306,12 @@ h1 {
   width: 100px;
 }
 
-.edit-customer-button:hover,
-.edit-customer-button:focus {
-  background: #209ed0;
-}
-
-.delete-customer-button {
+.customer-details .button--delete {
   margin-left: 5px;
   margin-top: 24px;
   padding: 8px 20px;
-  background: #F44336;
-  color: #fff;
+  background: var(--red-100);
+  color: white;
   border: none;
   border-radius: 4px;
   font-weight: 500;
@@ -260,11 +321,6 @@ h1 {
   width: 100px;
 }
 
-.delete-customer-button:hover,
-.delete-customer-button:focus {
-  background: #e53935;
-}
-
-.delete-customer-button:disabled {
-  background: #7B1A1A;
+.customer-details .button--delete:disabled {
+  background: var(--red-300);
 }

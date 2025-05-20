@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const CustomerForm = () => {
   const params = useParams();
   const [customerParam, setCustomer] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -66,21 +66,21 @@ const CustomerForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Name:</label>
-            <input id="name" type="text" name="name" value={customerData?.name} onChange={handleChange} required />
+            <input id="name" disabled={loading} type="text" name="name" value={customerData?.name} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
-            <input id="email" type="email" name="email" value={customerData?.email} onChange={handleChange} required />
+            <input id="email" disabled={loading} type="email" name="email" value={customerData?.email} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="phone">Phone:</label>
-            <input id="phone" type="tel" name="phone" value={customerData?.phone} onChange={handleChange} required />
+            <input id="phone" disabled={loading} type="tel" name="phone" value={customerData?.phone} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="address">Address:</label>
-            <input id="address" type="text" name="address" value={customerData?.address} onChange={handleChange} required />
+            <input id="address" disabled={loading} type="text" name="address" value={customerData?.address} onChange={handleChange} required />
           </div>
-          <button type="submit" className="submit-button">{customerParam ? "Edit Customer" : "Create Customer"}</button>
+          <button disabled={loading} type="submit" className="button button--success">{customerParam ? "Edit Customer" : "Create Customer"}</button>
         </form>
       </div>
     </div>

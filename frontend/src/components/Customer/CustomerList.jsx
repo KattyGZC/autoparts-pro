@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../Header";
-import { deleteCustomer, getCustomers } from "../../services/api";
+import { deleteCustomer, getCustomers } from "../../services/customerApi";
 import { useNavigate } from "react-router-dom";
 
 const CustomerList = () => {
@@ -41,7 +41,7 @@ const CustomerList = () => {
     <div>
       <Header title="Customers" />
       <div className="customer-list-container">
-        <button className="new-customer-button" disabled={loading} onClick={() => navigate("/customers/new")}>{"Add Customer"}</button>
+        <button className="button button--success" disabled={loading} onClick={() => navigate("/customers/new")}>{"Add Customer"}</button>
         {loading ?
           <p>Loading customers...</p>
           :
@@ -66,16 +66,16 @@ const CustomerList = () => {
                     <td>{customer.phone}</td>
                     <td>
                       <button
-                        className="detail-button"
+                        className="button button--info badge"
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/customers/detail/${customer.id}`)
                         }}
                       >
-                        See details
+                        View
                       </button>
                       <button
-                        className="edit-button"
+                        className="button button--edit badge"
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/customers/edit/${customer.id}`)
@@ -84,7 +84,7 @@ const CustomerList = () => {
                         Edit
                       </button>
                       <button
-                        className="delete-button"
+                        className="button button--delete badge"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDelete(customer);

@@ -49,14 +49,16 @@ const CustomerDetails = () => {
                   <p><strong>Address:</strong> {customer.address}</p>
                 </div>
                 <button
-                  className="edit-customer-button"
+                  className="button button--edit"
                   onClick={() => navigate(`/customers/edit/${customer.id}`)}
                 >
                   Edit
                 </button>
                 <button
-                  className="delete-customer-button"
+                  className="button button--delete"
                   onClick={handleDelete}
+                  disabled={deleting}
+                  style={{ marginLeft: "10px" }}
                 >
                   {deleting ? "Deleting..." : "Delete"}
                 </button>
