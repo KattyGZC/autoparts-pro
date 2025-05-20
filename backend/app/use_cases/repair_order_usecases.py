@@ -108,23 +108,23 @@ class RepairOrderUseCase:
 
     def _validate_status_transition(self, current_status: RepairOrderStatus, next_status: RepairOrderStatus):
         valid_transitions = {
-            "pending": ["in_progress", "canceled"],
-            "in_progress": ["completed", "canceled"],
+            RepairOrderStatus.PENDING: [RepairOrderStatus.IN_PROGRESS, RepairOrderStatus.CANCELLED],
+            RepairOrderStatus.IN_PROGRESS: [RepairOrderStatus.COMPLETED, RepairOrderStatus.CANCELLED],
         }
 
-        if current_status in ["completed", "canceled"]:
+        if current_status in [RepairOrderStatus.COMPLETED, RepairOrderStatus.CANCELLED]:
             raise RepairOrderValidationException("Completed or canceled orders cannot be modified.")
         
-        if next_status not in valid_transitions.get(current_status.value, []):
+        if next_status not in valid_transitions.get(current_status, []):
             raise RepairOrderValidationException(
-                f"Cannot change status from {current_status.value} to {next_status.value}.")
+                f"Cannot change status from {current_status} to {next_status}.")
 
     def _validate_repair_order(self, repair_order: RepairOrderCreate | RepairOrderUpdate):
         current_labor_cost = getattr(repair_order, "labor_cost", 0)
         current_status = getattr(repair_order, "status", None)
         if current_labor_cost and current_labor_cost < 0:
             raise RepairOrderValidationException("Labor cost cannot be negative.")
-        if current_status and current_status not in [item.value for item in RepairOrderStatus]:
+        if current_status and current_status not in [item for item in RepairOrderStatus]:
             raise RepairOrderValidationException(f"Invalid status: {current_status}")
 
     def get_repair_orders_by_vehicle_id(self, vehicle_id: uuid.UUID) -> list[RepairOrderRead]:
