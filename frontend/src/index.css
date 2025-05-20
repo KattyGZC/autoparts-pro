@@ -90,7 +90,8 @@ h1 {
 }
 
 .vehicle-list-container,
-.customer-list-container {
+.customer-list-container,
+.inventory-list-container {
   margin: 20px;
 }
 
@@ -113,12 +114,15 @@ h1 {
   background-color: var(--green-300);
 }
 
+.inventory-table,
 .vehicle-table,
 .customer-table {
   width: 100%;
   border-collapse: collapse;
 }
 
+.inventory-table th,
+.inventory-table td,
 .vehicle-table th,
 .vehicle-table td,
 .customer-table th,
@@ -128,6 +132,7 @@ h1 {
   text-align: left;
 }
 
+.inventory-table th,
 .vehicle-table th,
 .customer-table th {
   background-color: var(--marine-blue-300);
@@ -142,8 +147,9 @@ h1 {
   color: var(--border-color);
 }
 
-.customer-row:hover,
-.vehicle-row:hover {
+.inventory-row:hover,
+.vehicle-row:hover,
+.customer-row:hover {
   background-color: var(--hover-color);
 }
 
@@ -250,16 +256,19 @@ h1 {
 }
 
 .vehicle-form-container,
+.inventory-form-container,
 .customer-form-container {
   margin: 0 auto;
 }
 
 .vehicle-form,
+.inventory-form,
 .customer-form {
   padding: 50px;
 }
 
 .vehicle-form form,
+.inventory-form form,
 .customer-form form {
   display: flex;
   flex-direction: column;
@@ -310,16 +319,22 @@ h1 {
 }
 
 .vehicle-details-container,
-.customer-details-container {
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
+.customer-details-container,
+.inventory-details-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: white;
 }
 
-.vehicle-details p,
-.customer-details p {
-  margin: 8px 0;
-  font-size: 1.05rem;
+.customer-details,
+.inventory-details {
+  margin-bottom: 20px;
+}
+
+.customer-details p,
+.inventory-details p {
+  margin: 10px 0;
+  line-height: 1.5;
 }
 
 .customer-details .button--edit {

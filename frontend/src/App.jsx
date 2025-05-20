@@ -8,6 +8,8 @@ import InventoryList from "./components/Inventory/InventoryList";
 import RepairOrderList from "./components/RepairOrder/RepairOrderList";
 import CustomerForm from "./components/Customer/CustomerForm";
 import CustomerDetails from "./components/Customer/CustomerDetails";
+import InventoryForm from "./components/Inventory/InventoryForm";
+import InventoryDetail from "./components/Inventory/InventoryDetail";
 
 const App = () => {
   return (
@@ -23,6 +25,9 @@ const App = () => {
         <Route path="/vehicles/detail/:id" element={<VehicleDetails />} />
         <Route path="/vehicles/edit/:id" element={<VehicleForm />} />
         <Route path="/inventory" element={<InventoryList />} />
+        <Route path="/inventory/new" element={<InventoryForm />} />
+        <Route path="/inventory/detail/:id" element={<InventoryDetail />} />
+        <Route path="/inventory/edit/:id" element={<InventoryForm />} />
         <Route path="/repair-orders" element={<RepairOrderList />} />
         <Route path="*" element={<h2 style={{ color: "red" }}>404 - Page Not Found</h2>} />
       </Routes>
