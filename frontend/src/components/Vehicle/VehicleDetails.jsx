@@ -79,8 +79,15 @@ const VehicleDetails = () => {
                   <p><strong>Vehicle Active:</strong> {vehicle.is_active ? 'Yes' : 'No'}</p>
                 </div>
                 <button
+                  className="button button--success"
+                  onClick={() => navigate(`/repair-orders/create?vehicle_id=${vehicle.id}`)}
+                >
+                  Create Repair Order
+                </button>
+                <button
                   className="button button--edit"
                   onClick={() => navigate(`/vehicles/edit/${vehicle.id}`)}
+                  style={{ marginLeft: "10px" }}
                 >
                   Edit
                 </button>

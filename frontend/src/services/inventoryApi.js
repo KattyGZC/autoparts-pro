@@ -51,3 +51,13 @@ export const editInventoryPart = async (inventoryPart) => {
     return null;
   }
 };
+
+export const getInventoryPartsByOrder = async (orderId) => {
+  try {
+    const response = await axios.get(API_URL + '/repair_orders/' + orderId + '/parts-used');
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching inventory parts by order:', error);
+    return [];
+  }
+};

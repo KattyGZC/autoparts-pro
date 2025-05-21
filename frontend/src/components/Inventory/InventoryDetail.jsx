@@ -47,6 +47,7 @@ const InventoryDetail = () => {
                   <p><strong>Description:</strong> {part.description}</p>
                   <p><strong>Stock Quantity:</strong> {part.stock_quantity}</p>
                   <p><strong>Cost:</strong> ${part.cost.toFixed(2)}</p>
+                  <p><strong>Final Price:</strong> ${part.final_price.toFixed(2)}</p>
                 </div>
                 <button
                   className="button button--edit"

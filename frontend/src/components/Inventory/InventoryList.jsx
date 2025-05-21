@@ -50,6 +50,7 @@ const InventoryList = () => {
                 <tr>
                   <th>Name</th>
                   <th>Cost</th>
+                  <th>Final Price</th>
                   <th>Stock Quantity</th>
                   <th></th>
                 </tr>
@@ -62,6 +63,7 @@ const InventoryList = () => {
                   >
                     <td>{part.name}</td>
                     <td>${part.cost.toFixed(2)}</td>
+                    <td>${part.final_price.toFixed(2)}</td>
                     <td>{part.stock_quantity}</td>
                     <td>
                       <button
