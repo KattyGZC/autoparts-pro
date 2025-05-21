@@ -37,10 +37,19 @@ const RepairOrderEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const orderFormated = {
+        id: order.id,
+        status: order.status,
+        labor_cost: order.labor_cost,
+        date_expected_out: order.date_expected_out,
+        date_out: order.status === 'completed' || order.status === 'cancelled' ? order.date_out : null,
+        total_cost_repair: order.total_cost_repair,
+        parts: []
+      }
       setLoading(true);
-      const orderUpdated = await editOrder(order);
+      const orderUpdated = await editOrder(orderFormated);
       if (orderUpdated) {
-        navigate(`/repair-orders/detail/${orderUpdated.id}`, { replace: true });
+        navigate(`/repair-orders/detail/${orderFormated.id}`, { replace: true });
       } else {
         alert('Failed to update repair order. Please try again.');
       }
@@ -62,10 +71,6 @@ const RepairOrderEdit = () => {
       ) : (
         <div className="order-form">
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="status">Status:</label>
-              <span>{order.status}</span>
-            </div>
 
             <div className="form-group">
               <label htmlFor="date_in">Date In:</label>
@@ -80,6 +85,23 @@ const RepairOrderEdit = () => {
             <div className="form-group">
               <label htmlFor="vehicle_id">Vehicle:</label>
               <span>{order.vehicle?.license_plate}</span>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="status">Status:</label>
+              <select
+                id="status"
+                name="status"
+                value={order.status}
+                onChange={handleChange}
+                disabled={loading}
+                className="select-control"
+              >
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
             </div>
 
             <div className="form-group">

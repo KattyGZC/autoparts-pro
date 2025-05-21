@@ -224,7 +224,6 @@ h1 {
   background-color: var(--green-100);
   margin-bottom: 10px;
   max-width: 600px;
-  min-width: 100px;
   align-self: center;
 }
 
