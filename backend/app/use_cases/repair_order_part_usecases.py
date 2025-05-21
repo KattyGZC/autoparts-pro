@@ -100,9 +100,13 @@ class RepairOrderPartUseCase:
                     )
 
                 part_relation = RepairOrderPart(
+                    id=uuid.uuid4(),
                     repair_order_id=repair_order_id,
                     part_id=part_input.part_id,
-                    quantity=part_input.quantity
+                    quantity=part_input.quantity,
+                    is_active=True,
+                    created_at=datetime.now(),
+                    updated_at=datetime.now()
                 )
                 self.repair_order_part_repo.add(part_relation)
 

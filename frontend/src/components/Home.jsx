@@ -49,7 +49,7 @@ const Home = () => {
         </Link>
       </div>
       <div className="home-content">
-        <h2>Most Profitable Repair Orders</h2>
+        <h2>Recent Repair Orders</h2>
         {loading ? (
           <p>Loading orders...</p>
         ) : (
