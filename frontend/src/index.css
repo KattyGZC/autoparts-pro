@@ -40,11 +40,10 @@ body {
 }
 
 .home-navigation {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(2, 1fr);
-  width: 60%;
+  display: flex;
+  gap: 10px;
   max-width: 600px;
+  flex-direction: row;
 }
 
 .home-button {
@@ -53,11 +52,19 @@ body {
   padding: 30px 20px;
   color: white;
   border-radius: 8px;
+  min-width: 120px;
   transition: background-color 0.3s;
 }
 
 .home-button:hover {
   filter: brightness(1.1);
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0px;
 }
 
 .header-container {
@@ -262,18 +269,21 @@ h1 {
 }
 
 .vehicle-form-container,
+.order-form-container,
 .inventory-form-container,
 .customer-form-container {
   margin: 0 auto;
 }
 
 .vehicle-form,
+.order-form,
 .inventory-form,
 .customer-form {
   padding: 50px;
 }
 
 .vehicle-form form,
+.order-form form,
 .inventory-form form,
 .customer-form form {
   display: flex;

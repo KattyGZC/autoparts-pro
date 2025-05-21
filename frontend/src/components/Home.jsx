@@ -18,6 +18,8 @@ const Home = () => {
           Repair Orders
         </Link>
       </div>
+      <div className="home-content">
+      </div>
     </div>
   );
 };

@@ -80,7 +80,7 @@ const VehicleDetails = () => {
                 </div>
                 <button
                   className="button button--success"
-                  onClick={() => navigate(`/repair-orders/create?vehicle_id=${vehicle.id}`)}
+                  onClick={() => navigate(`/repair-orders/create?vehicle_id=${vehicle.id}&customer_id=${vehicle.customer.id}`)}
                 >
                   Create Repair Order
                 </button>

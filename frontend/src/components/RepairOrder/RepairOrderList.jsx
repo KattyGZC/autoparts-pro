@@ -26,7 +26,7 @@ const RepairOrderList = () => {
         <button
           className="button button--success"
           disabled={loading}
-          onClick={() => navigate("/repair-orders/new")}
+          onClick={() => navigate("/repair-orders/create")}
         >
           Add Order
         </button>
