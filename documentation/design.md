@@ -7,7 +7,7 @@ The problem is to find the best way to optimize the repair orders based on the i
 For this challenge, I have chosen to use a monolithic architecture with Clean Architecture principles, but keeping a decoupled structure between frontend and backend, orchestrating all with Docker. This decision was made to focus on the core functionality of the system and to keep the codebase simple and easy to maintain. It has use cases as classes with specific methods (CRUD operations) and optimization logic separated from the domain logic. Instead, I did business validation and error handling in the use cases, and domain validation and error handling in the domain logic. 
 The used stack is: 
 - Backend: Python 3.12, FastAPI, SQLAlchemy
-- Frontend: React, Vite, Axios, React Router DOM
+- Frontend: React, Vite, Axios
 - Database: PostgreSQL
 - Containerization: Docker, Docker Compose
 - Testing: Pytest
@@ -90,11 +90,21 @@ This logic respects inventory constraints and prioritizes orders with higher pro
 6. Documentation
 - I used Swagger to document the API. This allows to have a clear and easy way to understand the API and to make it easy to test the API. FastAPI automatically generates the documentation which is a great advantage.
 
+7. Mocking
+- I used Faker to generate fake data for testing. This allows to have a clear and easy way to test the API without using real data.
+
+## Frontend
+- I used React to build the frontend. This allows to have a modern and responsive user interface. Vite is used as a build tool and Axios is used for HTTP requests.
+- The interface is simple and easy to use, with a clear and intuitive layout. I take some considerations to make it user-friendly and easy to navigate.
+- In the future, there is possible to add more features to the frontend, such as a dashboard to monitor the inventory and repair orders.
+
 
 ## Limitations
 - Lack of integration testing in the end-to-end flow.
 - Doesn't include authentication and authorization.
 - Doesn't cover cases like concurrency or cascade rollbacks.
+- It's necessary add more validation to ensure integrity of data and error handling to ensure data consistency.
+
 
 ## Future Improvements
 - Add authentication, authorization and role management.
@@ -105,8 +115,4 @@ This logic respects inventory constraints and prioritizes orders with higher pro
 - Add stock tracking audit trail.
 - Add scalability for multi-branch operations.
 - Add reporting and analytics.
-
-## Frontend
-- I used React to build the frontend. This allows to have a modern and responsive user interface. Vite is used as a build tool and Axios is used for HTTP requests.
-- The interface is simple and easy to use, with a clear and intuitive layout. I take some considerations to make it user-friendly and easy to navigate.
-- In the future, there is possible to add more features to the frontend, such as a dashboard to monitor the inventory and repair orders.
+- Design UI/UX improvements.
