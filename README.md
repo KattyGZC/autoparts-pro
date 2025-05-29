@@ -1,8 +1,7 @@
-# senior-test
 # AutoPartsPro Technical Test
 
 ## Overview
-Welcome to the AutoPartsPro technical test! This exercise evaluates your ability to design and implement a practical information system, solve real-world business problems, and communicate your thought process effectively.
+Welcome to the AutoPartsPro! This exercise evaluates your ability to design and implement a practical information system, solve real-world business problems, and communicate your thought process effectively.
 
 ## Company Background
 AutoPartsPro is a mid-sized company specializing in:
@@ -129,4 +128,3 @@ Design and implement an information system that supports:
 - Maintain clear communication throughout
 - Document all major decisions
 
-Good luck with your implementation!
